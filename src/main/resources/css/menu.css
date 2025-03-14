@@ -1,0 +1,12 @@
+.top-menu{
+    -fx-background-color: #d6efff;
+
+    -fx-background-radius: 0;
+}
+.title-text{
+    -fx-text-fill: black; /* Ensure the text color is black */
+    -fx-opacity: 1;
+}
+.title-image{
+    -fx-opacity: 1;
+}
