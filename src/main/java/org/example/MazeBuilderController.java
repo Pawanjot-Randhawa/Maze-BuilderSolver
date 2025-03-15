@@ -73,9 +73,9 @@
                createMaze();
            });
 
-           widthInput.getItems().addAll(4,5, 6, 10, 12);
+           widthInput.getItems().addAll(5, 6);
            widthInput.setValue(5);
-           heightInput.getItems().addAll(4,5, 6, 10, 12);
+           heightInput.getItems().addAll(5, 6);
            heightInput.setValue(5);
            createMaze();
        }
