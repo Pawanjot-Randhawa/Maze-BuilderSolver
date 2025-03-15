@@ -2,10 +2,7 @@
 
    import javafx.fxml.FXML;
    import javafx.scene.Node;
-   import javafx.scene.control.Button;
-   import javafx.scene.control.ChoiceBox;
-   import javafx.scene.control.Spinner;
-   import javafx.scene.control.SpinnerValueFactory;
+   import javafx.scene.control.*;
    import javafx.scene.layout.ColumnConstraints;
    import javafx.scene.layout.GridPane;
    import javafx.scene.layout.Priority;
@@ -13,11 +10,21 @@
    import javafx.scene.paint.Color;
    import javafx.scene.shape.Rectangle;
    import javafx.scene.input.MouseEvent;
+   import javafx.geometry.Insets;
 
    public class MazeBuilderController {
        private final ViewFactory viewFactory;
        private int height;
        private int width;
+       private int startPoint;
+       private int endPoint;
+       private ToggleGroup tools;
+
+       //setting colors
+       Color start = Color.LIGHTGREEN;
+       Color end = Color.DARKRED;
+       Color path = Color.LIGHTGOLDENRODYELLOW;
+       Color wall = Color.LIGHTCORAL;
 
        public MazeBuilderController(ViewFactory viewFactory) {
            this.viewFactory = viewFactory;
@@ -26,7 +33,13 @@
        @FXML
        private Button temp_back;
        @FXML
-       private Button solveButton;
+       private ToggleButton startToggle;
+       @FXML
+       private ToggleButton endToggle;
+       @FXML
+       private Label startNum;
+       @FXML
+       private Label endNum;
        @FXML
        private Button generateGridButton;
        @FXML
@@ -39,29 +52,55 @@
 
        @FXML
        public void initialize() {
+           tools = new ToggleGroup();
+
+           startToggle.setToggleGroup(tools);
+           endToggle.setToggleGroup(tools);
+
+           startPoint = 0;
+           startNum.setTextFill(Color.RED);
+           startNum.setText(String.valueOf(startPoint));
+
+           endPoint = 0;
+           endNum.setTextFill(Color.RED);
+           endNum.setText(String.valueOf(endPoint));
+
+
            temp_back.setOnAction(event -> {
-               viewFactory.showMainMenuView();
+               viewFactory.showMazeSolverView();
            });
            generateGridButton.setOnAction(event -> {
                createMaze();
            });
 
-           solveButton.setOnAction(event -> {
-               printMazeArray(getMazeArray());
-           });
-
-           widthInput.getItems().addAll(5, 6, 7, 8, 9, 10);
+           widthInput.getItems().addAll(4,5, 6, 10, 12);
            widthInput.setValue(5);
-           heightInput.getItems().addAll(5, 6, 7, 8, 9, 10);
+           heightInput.getItems().addAll(4,5, 6, 10, 12);
            heightInput.setValue(5);
            createMaze();
        }
 
        public void createMaze() {
            grid.getChildren().clear();
+
            height = heightInput.getValue();
            width = widthInput.getValue();
 
+           double t1 = grid.getPrefWidth() / width;
+           double t2 = grid.getPrefHeight() / height;
+
+          /* grid.getRowConstraints().clear();
+           grid.getColumnConstraints().clear();
+
+
+           for (int i = 0; i < height; i++) {
+               grid.getRowConstraints().add(new RowConstraints(t2));
+           }
+
+           for (int j = 0; j < width; j++) {
+               grid.getColumnConstraints().add(new ColumnConstraints(t1));
+           }
+*/
            for (int row = 0; row < height; row++) {
                for (int col = 0; col < width; col++) {
                    // Create a rectangle for each grid cell
@@ -83,51 +122,6 @@
            }
        }
 
-       public void createMaze2(){
-           grid.getChildren().clear();
-           grid.getColumnConstraints().clear();
-           grid.getRowConstraints().clear();
-
-           height = heightInput.getValue();
-           width = widthInput.getValue();
-
-           for (int i = 0; i < width; i++) {
-               ColumnConstraints column = new ColumnConstraints();
-               column.setPercentWidth(100.0 / width); // Evenly space columns
-               column.setHgrow(Priority.ALWAYS); // Allow the column to grow
-               grid.getColumnConstraints().add(column);
-           }
-
-
-           for (int i = 0; i < height; i++) {
-               RowConstraints row = new RowConstraints();
-               row.setPercentHeight(100.0 / height); // Evenly space rows
-               row.setVgrow(Priority.ALWAYS); // Allow the row to grow
-               grid.getRowConstraints().add(row);
-           }
-
-           for (int row = 0; row < height; row++) {
-               for (int col = 0; col < width; col++) {
-                   Rectangle cell = new Rectangle();
-                   cell.setFill(Color.LIGHTGRAY); // Default fill color
-                   cell.setStroke(Color.BLACK);  // Grid border lines
-
-                   // The rectangle will resize to fit its container automatically
-                   cell.setWidth(grid.getWidth() / width);
-                   cell.setHeight(grid.getHeight() / height);
-
-                   // Add a click handler if needed
-                   //cell.setOnMouseClicked(event -> handleCellClick(event, cell));
-
-                   // Add the rectangle to the GridPane at the correct position
-                   grid.add(cell, col, row);
-
-
-               }
-           }
-
-       }
-
        private int[][] getMazeArray(){
            int[][] mazeArray = new int[height][width];
 
@@ -145,22 +139,53 @@
            return mazeArray;
        }
 
-       private void printMazeArray(int[][] mazeArray){
-           for (int i = 0; i < mazeArray.length; i++) {
-               for (int j = 0; j < mazeArray[0].length; j++) {
-                   System.out.print(mazeArray[i][j] + " ");
-               }
-               System.out.println();
-           }
-       }
-
        private void handleCellClick(MouseEvent event, Rectangle cell) {
            // Toggle the color of the clicked rectangle
-           if (cell.getFill().equals(Color.LIGHTGOLDENRODYELLOW)) {
-               cell.setFill(Color.LIGHTCORAL);
-           } else {
-               cell.setFill(Color.LIGHTGOLDENRODYELLOW);
+
+           Toggle selectedToggle = tools.getSelectedToggle(); // Get the selected toggle in the group
+
+           if (selectedToggle == startToggle) { //start toggle
+               if (startPoint<1 && !cell.getFill().equals(start)) { // no start points means we can set one
+                   cell.setFill(start);
+                   startPoint = 1;
+                   startNum.setTextFill(Color.GREEN);
+                   startNum.setText(String.valueOf(startPoint));
+               } else {
+                   if(cell.getFill().equals(start)){ //delete start
+                       cell.setFill(path);
+                       startPoint = 0;
+                       startNum.setTextFill(Color.RED);
+                       startNum.setText(String.valueOf(startPoint));
+
+                   }else{ //default behaviour if cell is not a start
+                       cell.setFill(path);
+                   }
+               }
+           } else if (selectedToggle == endToggle) { // end toggle
+               if (!cell.getFill().equals(end)) { //no limit on end points so we cant just start making them
+                   cell.setFill(end);
+                   endPoint += 1;
+                   endNum.setTextFill(Color.GREEN);
+                   endNum.setText(String.valueOf(endPoint));
+               } else {
+                   if(cell.getFill().equals(end)){ // delete end point
+                       cell.setFill(path);
+                       endPoint -= 1;
+                       endNum.setTextFill(Color.RED);
+                       endNum.setText(String.valueOf(endPoint));
+                   }else{ //default behaviour if cell is not a end point
+                       cell.setFill(path);
+                   }
+               }
+           } else {     //default behaviour
+               if (cell.getFill().equals(path)) {
+                   cell.setFill(wall);
+               } else {
+                   cell.setFill(path);
+               }
            }
+
+
 
        }
 

@@ -37,24 +37,25 @@ public class ViewFactory {
         }
     }
 
-    /*
-    public void showMazeBuilderView2(Maze maze) {
+    public void showMazeSolverView() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("mazebuilder.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/solvearea.fxml"));
+
+            // Instantiate the controller and pass the Maze and ViewFactory as dependencies
+            MazeSolverController controller = new MazeSolverController(this);
+
+            loader.setController(controller);
+
             Parent root = loader.load();
 
-            // Pass the maze to the controller
-            MazeBuilderController controller = loader.getController();
-            controller.setMaze(maze); // Configure the controller
-
             stage.setScene(new Scene(root));
-            stage.setTitle("Maze Builder");
+            stage.setTitle("Maze Solver");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
-    */
     public void showMazeBuilderView3() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/paintarea.fxml"));
