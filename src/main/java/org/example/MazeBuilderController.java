@@ -67,7 +67,7 @@
 
 
            temp_back.setOnAction(event -> {
-               viewFactory.showMazeSolverView();
+               viewFactory.showMazeSolverView(getMazeArray());
            });
            generateGridButton.setOnAction(event -> {
                createMaze();
@@ -122,21 +122,24 @@
            }
        }
 
-       private int[][] getMazeArray(){
+       private Maze getMazeArray(){
            int[][] mazeArray = new int[height][width];
 
            for (Node cell : grid.getChildren()) {
                int col = GridPane.getColumnIndex(cell);
                int row = GridPane.getRowIndex(cell);
                cell = (Rectangle)cell;
-               if(((Rectangle) cell).getFill().equals(Color.LIGHTCORAL)){
+               if(((Rectangle) cell).getFill().equals(wall)){
                    mazeArray[row][col] = 1;
-               }
-               else if(((Rectangle) cell).getFill().equals(Color.LIGHTGOLDENRODYELLOW)){
+               }else if(((Rectangle) cell).getFill().equals(path)){
                    mazeArray[row][col] = 0;
+               }else if (((Rectangle) cell).getFill().equals(start)) {
+                   mazeArray[row][col] = 8;
+               }else if (((Rectangle) cell).getFill().equals(end)) {
+                   mazeArray[row][col] = 3;
                }
            }
-           return mazeArray;
+           return new Maze(mazeArray, width, height);
        }
 
        private void handleCellClick(MouseEvent event, Rectangle cell) {

@@ -37,12 +37,12 @@ public class ViewFactory {
         }
     }
 
-    public void showMazeSolverView() {
+    public void showMazeSolverView(Maze mazeArray) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/solvearea.fxml"));
 
             // Instantiate the controller and pass the Maze and ViewFactory as dependencies
-            MazeSolverController controller = new MazeSolverController(this);
+            MazeSolverController controller = new MazeSolverController(this, mazeArray);
 
             loader.setController(controller);
 
