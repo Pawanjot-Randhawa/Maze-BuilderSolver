@@ -43,7 +43,7 @@ public class MazeSolverController {
     @FXML
     public void initialize() {
         switchBuild.setOnAction(event -> {
-            viewFactory.showMazeBuilderView3();
+            viewFactory.showMazeBuilderView();
         });
         copyMazeArray();
 

@@ -16,7 +16,7 @@
        @FXML
        public void initialize() {
            new_maze_btn.setOnAction(event -> {
-               viewFactory.showMazeBuilderView3();
+               viewFactory.showMazeBuilderView();
            });
        }
    }

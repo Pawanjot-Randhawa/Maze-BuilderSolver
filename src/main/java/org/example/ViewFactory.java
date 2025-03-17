@@ -56,7 +56,7 @@ public class ViewFactory {
         }
 
     }
-    public void showMazeBuilderView3() {
+    public void showMazeBuilderView() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/paintarea.fxml"));
 
