@@ -56,12 +56,12 @@ public class ViewFactory {
         }
 
     }
-    public void showMazeBuilderView() {
+    public void showMazeBuilderView(Maze mazeArray) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/paintarea.fxml"));
 
             // Instantiate the controller and pass the Maze and ViewFactory as dependencies
-            MazeBuilderController controller = new MazeBuilderController(this);
+            MazeBuilderController controller = new MazeBuilderController(this, mazeArray);
 
             loader.setController(controller);
 

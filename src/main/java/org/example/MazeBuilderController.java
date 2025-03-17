@@ -14,6 +14,8 @@
 
    public class MazeBuilderController {
        private final ViewFactory viewFactory;
+       private boolean isNewMaze;
+       private Maze maze;
        private int height;
        private int width;
        private int startPoint;
@@ -26,8 +28,12 @@
        Color path = Color.LIGHTGOLDENRODYELLOW;
        Color wall = Color.LIGHTCORAL;
 
-       public MazeBuilderController(ViewFactory viewFactory) {
+       public MazeBuilderController(ViewFactory viewFactory, Maze maze) {
            this.viewFactory = viewFactory;
+           isNewMaze = maze == null;//if maze is null then its false
+           if(!isNewMaze){
+               this.maze = maze;
+           }
        }
 
        @FXML
@@ -68,7 +74,11 @@
            widthInput.setValue(5);
            heightInput.getItems().addAll(5, 6);
            heightInput.setValue(5);
-           createMaze();
+           if(isNewMaze){
+               createMaze();
+           }else{
+               copyMazeArray();
+           }
        }
 
        public void createMaze() {
@@ -96,6 +106,39 @@
                    // Add the rectangle to the GridPane at the correct position
                    grid.add(cell, col, row);
 
+               }
+           }
+       }
+
+       public void copyMazeArray(){
+           grid.getChildren().clear();
+           this.height = maze.getMazeHeight();
+           this.width = maze.getMazeWidth();
+
+           int[][] mazeArray = maze.getMazeArray();
+
+           for (int row = 0; row < maze.getMazeHeight(); row++) {
+               for (int col = 0; col < maze.getMazeWidth(); col++) {
+                   // Create a rectangle for each grid cell
+                   Rectangle cell = new Rectangle();
+
+                   if(mazeArray[row][col]==1){
+                       cell.setFill(wall);
+                   }else if(mazeArray[row][col]==0){
+                       cell.setFill(path);
+                   }else if (mazeArray[row][col]==8) {
+                       cell.setFill(start);
+                   }else if (mazeArray[row][col]==3) {
+                       cell.setFill(end);
+                   }
+                   cell.setStroke(Color.BLACK);  // Add a border
+                   // Dynamically bind the size of the rectangle
+                   cell.widthProperty().bind(grid.widthProperty().divide(maze.getMazeWidth())); // Width of each rectangle
+                   cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight())); // Height of each rectangle
+                   // Add a mouse click event to make the rectangle clickable
+                   cell.setOnMouseClicked(event -> handleCellClick(event, cell));
+                   // Add the rectangle to the GridPane at the correct position
+                   grid.add(cell, col, row);
                }
            }
        }

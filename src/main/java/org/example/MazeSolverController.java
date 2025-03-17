@@ -43,7 +43,7 @@ public class MazeSolverController {
     @FXML
     public void initialize() {
         switchBuild.setOnAction(event -> {
-            viewFactory.showMazeBuilderView();
+            viewFactory.showMazeBuilderView(getMazeArray());
         });
         copyMazeArray();
 
@@ -75,6 +75,26 @@ public class MazeSolverController {
                 grid.add(cell, col, row);
             }
         }
+    }
+
+    private Maze getMazeArray(){
+        int[][] mazeArray = new int[maze.getMazeHeight()][maze.getMazeWidth()];
+
+        for (Node cell : grid.getChildren()) {
+            int col = GridPane.getColumnIndex(cell);
+            int row = GridPane.getRowIndex(cell);
+            cell = (Rectangle)cell;
+            if(((Rectangle) cell).getFill().equals(wall)){
+                mazeArray[row][col] = 1;
+            }else if(((Rectangle) cell).getFill().equals(path)){
+                mazeArray[row][col] = 0;
+            }else if (((Rectangle) cell).getFill().equals(start)) {
+                mazeArray[row][col] = 8;
+            }else if (((Rectangle) cell).getFill().equals(end)) {
+                mazeArray[row][col] = 3;
+            }
+        }
+        return new Maze(mazeArray, maze.getMazeWidth(), maze.getMazeHeight());
     }
 
     private void printMazeArray(int[][] mazeArray){
