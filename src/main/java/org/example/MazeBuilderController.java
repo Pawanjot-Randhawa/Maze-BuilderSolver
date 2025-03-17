@@ -57,15 +57,6 @@
            startToggle.setToggleGroup(tools);
            endToggle.setToggleGroup(tools);
 
-           startPoint = 0;
-           startNum.setTextFill(Color.RED);
-           startNum.setText(String.valueOf(startPoint));
-
-           endPoint = 0;
-           endNum.setTextFill(Color.RED);
-           endNum.setText(String.valueOf(endPoint));
-
-
            temp_back.setOnAction(event -> {
                viewFactory.showMazeSolverView(getMazeArray());
            });
@@ -83,24 +74,11 @@
        public void createMaze() {
            grid.getChildren().clear();
 
+           reset();
+
            height = heightInput.getValue();
            width = widthInput.getValue();
 
-           double t1 = grid.getPrefWidth() / width;
-           double t2 = grid.getPrefHeight() / height;
-
-          /* grid.getRowConstraints().clear();
-           grid.getColumnConstraints().clear();
-
-
-           for (int i = 0; i < height; i++) {
-               grid.getRowConstraints().add(new RowConstraints(t2));
-           }
-
-           for (int j = 0; j < width; j++) {
-               grid.getColumnConstraints().add(new ColumnConstraints(t1));
-           }
-*/
            for (int row = 0; row < height; row++) {
                for (int col = 0; col < width; col++) {
                    // Create a rectangle for each grid cell
@@ -120,6 +98,16 @@
 
                }
            }
+       }
+
+       public void reset(){
+           startPoint = 0;
+           startNum.setTextFill(Color.RED);
+           startNum.setText(String.valueOf(startPoint));
+
+           endPoint = 0;
+           endNum.setTextFill(Color.RED);
+           endNum.setText(String.valueOf(endPoint));
        }
 
        private Maze getMazeArray(){
