@@ -2,7 +2,7 @@ package org.example;
 
 import java.io.IOException;
 
-import org.example.Models.Maze;
+import org.example.Models.Hello;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -30,9 +30,7 @@ public class JavaFX extends Application {
     }
 
     public static void main(String[] args) {
-        Maze maze = new Maze();
-        System.out.println(maze.sayHello());
-
+        System.out.println(Hello.INSTANCE.sayHello());
         launch();
     }
 
