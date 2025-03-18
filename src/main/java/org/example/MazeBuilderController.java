@@ -115,6 +115,8 @@
            this.height = maze.getMazeHeight();
            this.width = maze.getMazeWidth();
 
+           reset();
+
            int[][] mazeArray = maze.getMazeArray();
 
            for (int row = 0; row < maze.getMazeHeight(); row++) {
@@ -128,8 +130,14 @@
                        cell.setFill(path);
                    }else if (mazeArray[row][col]==8) {
                        cell.setFill(start);
+                       this.startPoint = 1;
+                       startNum.setTextFill(Color.GREEN);
+                       startNum.setText(String.valueOf(startPoint));
                    }else if (mazeArray[row][col]==3) {
                        cell.setFill(end);
+                       this.endPoint += 1;
+                       endNum.setTextFill(Color.GREEN);
+                       endNum.setText(String.valueOf(endPoint));
                    }
                    cell.setStroke(Color.BLACK);  // Add a border
                    // Dynamically bind the size of the rectangle
