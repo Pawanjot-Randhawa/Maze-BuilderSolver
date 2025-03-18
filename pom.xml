@@ -26,10 +26,70 @@
             <artifactId>javafx-fxml</artifactId>
             <version>23.0.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.maven-nar</groupId>
+            <artifactId>nar-maven-plugin</artifactId>
+            <version>3.5.2</version>
+            <type>maven-plugin</type>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- Exec Maven Plugin for Header Generation -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-headers</id>
+                        <phase>compile</phase> <!-- Execute during the compile phase -->
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>javac</executable>
+                            <arguments>
+                                <argument>-h</argument>
+                                <argument>${project.basedir}/src/main/headers</argument>
+                                <argument>${project.basedir}/src/main/java/org/example/Models/Maze.java</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- NAR Maven Plugin -->
+            <plugin>
+                <groupId>com.github.maven-nar</groupId>
+                <artifactId>nar-maven-plugin</artifactId>
+                <version>3.5.2</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <libraries>
+                        <library>
+                            <type>shared</type>
+                        </library>
+                    </libraries>
+                    <includePaths>
+                        <includePath>${project.basedir}/src/main/headers</includePath>
+                    </includePaths>
+                    <sourceDirectory>${project.basedir}/src/main/cpp/Maze.cpp</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/nar</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase> 
+                        <goals>
+                            <goal>nar-compile</goal>
+                            <goal>nar-package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
