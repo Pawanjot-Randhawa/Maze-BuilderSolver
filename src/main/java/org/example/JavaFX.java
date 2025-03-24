@@ -1,12 +1,11 @@
 package org.example;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import java.io.IOException;
+
+import org.example.Native.MazeSolver;
+
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 public class JavaFX extends Application {
 
@@ -31,6 +30,8 @@ public class JavaFX extends Application {
     }
 
     public static void main(String[] args) {
+        MazeSolver.sayHello();
+        System.out.println(MazeSolver.returnHello());
         launch();
     }
 
