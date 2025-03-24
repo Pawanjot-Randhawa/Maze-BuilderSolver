@@ -23,6 +23,14 @@ JNIEXPORT void JNICALL Java_org_example_Native_MazeSolver_sayHello
 JNIEXPORT jstring JNICALL Java_org_example_Native_MazeSolver_returnHello
   (JNIEnv *, jclass);
 
+/*
+ * Class:     org_example_Native_MazeSolver
+ * Method:    solveMaze
+ * Signature: ([[I)[[I
+ */
+JNIEXPORT jobjectArray JNICALL Java_org_example_Native_MazeSolver_solveMaze
+  (JNIEnv *, jclass, jobjectArray);
+
 #ifdef __cplusplus
 }
 #endif

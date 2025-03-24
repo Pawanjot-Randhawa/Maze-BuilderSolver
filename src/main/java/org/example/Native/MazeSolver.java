@@ -7,4 +7,7 @@ public class MazeSolver {
 
   public static native void sayHello();
   public static native String returnHello();
+
+  // oh brother
+  public static native int[][] solveMaze(int[][] maze);
 }

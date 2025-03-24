@@ -41,3 +41,4 @@ build/
 ### other files ###
 *.o
 *.dll
+log.txt
