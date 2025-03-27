@@ -116,6 +116,9 @@
            this.height = maze.getMazeHeight();
            this.width = maze.getMazeWidth();
 
+           widthInput.setValue(maze.getMazeWidth());
+           heightInput.setValue(maze.getMazeHeight());
+
            reset();
 
            int[][] mazeArray = maze.getMazeArray();
