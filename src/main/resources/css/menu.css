@@ -9,3 +9,12 @@
 .title-image{
     -fx-opacity: 1;
 }
+.new-maze-button{
+    -fx-background-color: #a6efff;
+    -fx-focus-color: transparent; /* Removes the glowing border color */
+
+}
+.open-maze-button{
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: #a6efff; /* color of the border when you click the button */
+}

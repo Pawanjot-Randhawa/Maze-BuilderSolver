@@ -15,12 +15,12 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="500.0" layoutY="26.0" prefHeight="687.0" prefWidth="160.0" spacing="50.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
-            <Button fx:id="new_maze_btn" alignment="TOP_CENTER" mnemonicParsing="false" text="New" textAlignment="CENTER">
+            <Button fx:id="new_maze_btn" alignment="TOP_CENTER" mnemonicParsing="false" styleClass="new-maze-button" text="New" textAlignment="CENTER">
                <font>
                   <Font name="Cambria Bold" size="20.0" />
                </font>
             </Button>
-            <Button alignment="TOP_CENTER" layoutX="57.0" layoutY="60.0" mnemonicParsing="false" text="Open" textAlignment="CENTER">
+            <Button alignment="TOP_CENTER" layoutX="57.0" layoutY="60.0" mnemonicParsing="false" styleClass="open-maze-button" text="Open" textAlignment="CENTER">
                <font>
                   <Font name="Cambria Bold" size="20.0" />
                </font>
