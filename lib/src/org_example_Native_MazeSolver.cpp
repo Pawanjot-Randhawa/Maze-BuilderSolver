@@ -2,10 +2,19 @@
 #include <vector>
 #include <thread>
 #include <future>
-#include "../headers/Logger.h"
+#include <string>
 
 #include <jni.h>
+
+#include "../headers/Logger.h"
 #include "../headers/org_example_Native_MazeSolver.h"
+#include "../headers/Matrix.hpp"
+
+#define WALL 1
+#define GOAL 3
+#define PATH 0
+#define START 8
+
 
 JNIEXPORT void JNICALL Java_org_example_Native_MazeSolver_sayHello
 (JNIEnv *, jclass) {
@@ -18,99 +27,71 @@ JNIEXPORT jstring JNICALL Java_org_example_Native_MazeSolver_returnHello
   return env->NewStringUTF(hello.c_str());
 }
 
-static int currentStep = 0;
+// Allocates the Maze
+JNIEXPORT jboolean JNICALL Java_org_example_Native_MazeSolver_InitializeMaze
+  (JNIEnv *env, jclass, jobjectArray maze) {
+    const int rows{env->GetArrayLength(maze)};
+    const jobjectArray firstRow = static_cast<jobjectArray>(env->GetObjectArrayElement(maze, 0));
+    const int columns = {env->GetArrayLength(firstRow)};
+    
+    Matrix<int>& matrix = Matrix<int>::GetInstance();
+    matrix.Initialize(rows, columns, START, GOAL, WALL);
 
-struct Maze {
-  int** maze;
-  int rows{};
-  int cols{};
-
-  static Maze*& getInstance(const int& rows, const int& cols) {
-    static Maze* instance;
-    return instance;
-  }
-
-  ~Maze() {
-    logger.Debug("~Maze() Deconstructor");
-
-    for(int i = 0; i < this->rows; ++i) {
-      delete[] maze[i];
-    }
-    delete[] maze;
-  }
-
-private:
-
-  Maze(const int& rows, const int& cols) {
-    this->allocate(rows, cols);
-  }
-
-  void allocate(const int& rows, const int& cols) {
-    logger.Debug("allocate() Allocating maze");
-
-    this->maze = new int*[rows];
     for(int i = 0; i < rows; ++i) {
-      this->maze[i] = new int[cols];
+      jintArray currentRow = static_cast<jintArray>((env->GetObjectArrayElement(maze, i)));
+      jint *rawInts = env->GetIntArrayElements(currentRow, NULL);
+
+      for(int j = 0; j < columns; ++j) {
+        matrix.Set(i, j, rawInts[j]);
+      }
+
+      env->ReleaseIntArrayElements(currentRow, rawInts, 0);
     }
-  }
-};
 
-JNIEXPORT jobjectArray JNICALL Java_org_example_Native_MazeSolver_solveMaze
-(JNIEnv *env, jclass, jobjectArray maze) {
-  logger.Info("hi");
+    matrix.Print();
 
-  jobjectArray ans{};
-  
-  const int rows{env->GetArrayLength(maze)};
-  const jobjectArray firstRow = static_cast<jobjectArray>(env->GetObjectArrayElement(maze, 0));
-  const int columns = {env->GetArrayLength(firstRow)};
-
-  Maze* m = Maze::getInstance(rows, columns);
-
-  for(int i = 0; i < rows; ++i) {
-    jobjectArray currentRow = (jobjectArray)((env->GetObjectArrayElement(maze, i)));
-    for(int j = 0; j < columns; ++j) {
-      
-    } 
-  }
-
-  /*
-  if(condition)
-
-  */
-
-
-  return ans;
+    return true;  
 }
 
-//   JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_solveStep
-//   (JNIEnv *env, jclass, jobject mazeObj) {
-//     // Get the Maze class
-//     // jclass mazeClass = env->GetObjectClass(mazeObj);
+JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_AStar
+  (JNIEnv *env, jclass obj) 
+{
+
+  Matrix<int>& matrix = Matrix<int>::GetInstance();
+  matrix.AStar();
+  const auto path = matrix.GetPath();
+
+  // Get java methods
+  jclass arrayListClass = env->FindClass("java/util/ArrayList");
+  jmethodID arrayListInit = env->GetMethodID(arrayListClass, "<init>", "()V"); // no args, void
+  jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z"); // z = return bool, take obj as arg
+
+
+  // Create array list
+  jobject resultList = env->NewObject(arrayListClass, arrayListInit);
+
+  // Get the java int[] class
+  jclass intArrayClass = env->FindClass("[I"); // [ = arr, I = primitive int]
+
+
+  // convert to array list
+  for (const auto& p : path) {
+    jintArray intArray = env->NewIntArray(2);
+    jint temp[2] = {p.first, p.second};
+    env->SetIntArrayRegion(intArray, 0, 2, temp);
     
-//     // // Get the 'mazeArray' field (assuming it's an int[][])
-//     // jfieldID mazeArrayField = env->GetFieldID(mazeClass, "mazeArray", "[[I");
-//     // jobjectArray mazeArray = (jobjectArray) env->GetObjectField(mazeObj, mazeArrayField);
-    
-//     // // Get the number of rows (height) and columns (width)
-//     // jint mazeHeight = env->GetArrayLength(mazeArray);
-//     // jint mazeWidth = env->GetArrayLength((jarray) env->GetObjectArrayElement(mazeArray, 0));
+    env->CallBooleanMethod(resultList, arrayListAdd, intArray);
+    env->DeleteLocalRef(intArray); // Cleanup local ref
+  }
 
-//     // // Create a new 2D array for the solved maze
-//     // jobjectArray solvedMaze = env->NewObjectArray(mazeHeight, env->GetObjectClass(mazeArray), NULL);
+  return resultList; 
 
-//     // Example of a simple logic to solve the maze (just copy the array in this case)
-//     // for (int i = 0; i < mazeHeight; i++) {
-//     //     jintArray row = (jintArray) env->GetObjectArrayElement(mazeArray, i);
-//     //     jint *rowElements = env->GetIntArrayElements(row, 0);
+}
 
-//     //     // For now, just copy the original maze to the solved maze
-//     //     jintArray solvedRow = env->NewIntArray(mazeWidth);
-//     //     env->SetIntArrayRegion(solvedRow, 0, mazeWidth, rowElements);
-//     //     env->SetObjectArrayElement(solvedMaze, i, solvedRow);
+/*
+PLAN:
+1. Upon Init
+  - Create a graph of the maze
+2. 
 
-//     //     env->ReleaseIntArrayElements(row, rowElements, 0);
-//     // }
-
-//     return {};
-// }
+*/

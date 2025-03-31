@@ -1,5 +1,7 @@
 package org.example.Native;
 
+import java.util.List;
+
 public class MazeSolver {
   static {
     System.loadLibrary("native");
@@ -9,5 +11,6 @@ public class MazeSolver {
   public static native String returnHello();
 
   // oh brother
-  public static native int[][] solveMaze(int[][] maze);
+  public static native boolean InitializeMaze(int[][] maze);
+  public static native List<int[]> AStar();
 }

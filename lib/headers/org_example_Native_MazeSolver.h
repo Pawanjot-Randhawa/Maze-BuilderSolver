@@ -25,11 +25,19 @@ JNIEXPORT jstring JNICALL Java_org_example_Native_MazeSolver_returnHello
 
 /*
  * Class:     org_example_Native_MazeSolver
- * Method:    solveMaze
- * Signature: ([[I)[[I
+ * Method:    InitializeMaze
+ * Signature: ([[I)Z
  */
-JNIEXPORT jobjectArray JNICALL Java_org_example_Native_MazeSolver_solveMaze
+JNIEXPORT jboolean JNICALL Java_org_example_Native_MazeSolver_InitializeMaze
   (JNIEnv *, jclass, jobjectArray);
+
+/*
+ * Class:     org_example_Native_MazeSolver
+ * Method:    AStar
+ * Signature: ()Ljava/util/List;
+ */
+JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_AStar
+  (JNIEnv *, jclass);
 
 #ifdef __cplusplus
 }
