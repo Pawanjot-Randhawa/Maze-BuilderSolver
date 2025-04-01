@@ -23,9 +23,11 @@ void Matrix<T>::DestructMatrix() {
         for(int i = 0; i < this->rows; ++i) {
             if(this->matrix[i]) {
                 delete[] this->matrix[i];
+                this->matrix[i] = nullptr;
             }
         }
         delete[] this->matrix;
+        this->matrix = nullptr;
     }
 }
 
@@ -63,6 +65,8 @@ void Matrix<T>::Set(const int& row, const int& col, const T& value) {
         this->InitializeMatrix();
     }
     if(value == this->startValue) {
+      std::string str{"Starting Position" + std::to_string(row) + ", " + std::to_string(col)};
+      logger.Info("Starting Position");
       this->startingPosition = {row, col};
     }
     if(value == this->goalValue) {

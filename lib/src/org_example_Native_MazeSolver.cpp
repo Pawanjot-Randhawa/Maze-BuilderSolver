@@ -30,6 +30,9 @@ JNIEXPORT jstring JNICALL Java_org_example_Native_MazeSolver_returnHello
 // Allocates the Maze
 JNIEXPORT jboolean JNICALL Java_org_example_Native_MazeSolver_InitializeMaze
   (JNIEnv *env, jclass, jobjectArray maze) {
+    logger.Info("Initialzing Maze");
+    std::cout << "HELLO CAN YOU SEE ME??\n\n";
+    
     const int rows{env->GetArrayLength(maze)};
     const jobjectArray firstRow = static_cast<jobjectArray>(env->GetObjectArrayElement(maze, 0));
     const int columns = {env->GetArrayLength(firstRow)};
@@ -47,8 +50,9 @@ JNIEXPORT jboolean JNICALL Java_org_example_Native_MazeSolver_InitializeMaze
 
       env->ReleaseIntArrayElements(currentRow, rawInts, 0);
     }
+    logger.Info("CHECK LOGGER");
 
-    matrix.Print();
+    //matrix.Print();
 
     return true;  
 }
@@ -57,9 +61,18 @@ JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_AStar
   (JNIEnv *env, jclass obj) 
 {
 
+  logger.Info("Solving Maze");
+
   Matrix<int>& matrix = Matrix<int>::GetInstance();
   matrix.AStar();
   const auto path = matrix.GetPath();
+
+  std::string str{};
+  for(const auto& p : path) {
+    str += std::to_string(p.first) + " " + std::to_string(p.second) + "\n"; 
+  }
+  std::cout << str << "\n";
+  logger.Info(str.c_str());
 
   // Get java methods
   jclass arrayListClass = env->FindClass("java/util/ArrayList");
@@ -84,6 +97,7 @@ JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_AStar
     env->DeleteLocalRef(intArray); // Cleanup local ref
   }
 
+  logger.Info("Solved Maze");
   return resultList; 
 
 }

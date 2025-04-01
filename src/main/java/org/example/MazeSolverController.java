@@ -1,16 +1,22 @@
 package org.example;
+import java.util.List;
+
+import org.example.Native.MazeSolver;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Spinner;
 
 public class MazeSolverController {
     private final ViewFactory viewFactory;
     private final Maze maze;
+    List<int[]> pathYes;
+    int temp;
 
     //setting colors
     Color start = Color.LIGHTGREEN;
@@ -22,6 +28,11 @@ public class MazeSolverController {
     public MazeSolverController(ViewFactory viewFactory, Maze maze) {
         this.viewFactory = viewFactory;
         this.maze = maze;
+        System.out.println("Maze Solver Controller");
+        printMazeArray(this.maze.getMazeArray());
+        MazeSolver.InitializeMaze(maze.getMazeArray());
+        this.pathYes = MazeSolver.AStar();
+        this.temp = 0;
     }
 
     @FXML
@@ -42,10 +53,35 @@ public class MazeSolverController {
 
     @FXML
     public void initialize() {
+        System.out.println("Maze Solver Start Initialized");
         switchBuild.setOnAction(event -> {
             viewFactory.showMazeBuilderView(getMazeArray());
         });
+        nextStep.setOnAction(event -> {
+            tempPlay();
+            temp += 1;
+        });
         copyMazeArray();
+        System.out.println("Maze Solver Initialized");
+
+    }
+
+    public void tempPlay(){
+        
+        for(var pairs : this.pathYes) {
+            System.out.println(pairs[0] + " , " + pairs[1]);
+        }
+
+        int[] values = pathYes.get(temp);
+        Rectangle cell = new Rectangle();
+
+        cell.setFill(Color.GAINSBORO);
+
+        cell.widthProperty().bind(grid.widthProperty().divide(maze.getMazeWidth())); // Width of each rectangle
+        cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight())); // Height of each rectangle
+
+
+        grid.add(cell, values[1], values[0]);
 
     }
 

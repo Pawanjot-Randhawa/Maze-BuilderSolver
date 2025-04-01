@@ -12,6 +12,7 @@
 
 #include "Bit.hpp"
 #include "Cell.hpp"
+#include "Logger.h"
 
 template <class T>
 class Matrix {
