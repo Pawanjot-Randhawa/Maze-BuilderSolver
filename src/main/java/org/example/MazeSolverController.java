@@ -17,7 +17,6 @@ public class MazeSolverController {
     private final Maze maze;
     List<int[]> pathYes;
     int temp;
-    private Thread setup;
 
     //setting colors
     Color start = Color.LIGHTGREEN;
