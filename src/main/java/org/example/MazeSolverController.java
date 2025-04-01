@@ -1,15 +1,16 @@
 package org.example;
+import java.util.List;
+
+import org.example.Native.MazeSolver;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Spinner;
-import org.example.Native.MazeSolver;
-
-import java.util.List;
 
 public class MazeSolverController {
     private final ViewFactory viewFactory;
@@ -30,9 +31,8 @@ public class MazeSolverController {
         this.maze = maze;
         System.out.println("Maze Solver Controller");
         printMazeArray(this.maze.getMazeArray());
-        this.setup = new Thread(() -> {
-            MazeSolver.InitializeMaze(this.maze.getMazeArray());
-        });
+        MazeSolver.InitializeMaze(maze.getMazeArray());
+        this.pathYes = MazeSolver.AStar();
         this.temp = 0;
     }
 
@@ -68,14 +68,11 @@ public class MazeSolverController {
     }
 
     public void tempPlay(){
-        if(this.setup.isAlive()){
-            try{
-                this.setup.join();
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }
+        
+        for(var pairs : this.pathYes) {
+            System.out.println(pairs[0] + " , " + pairs[1]);
         }
-        this.pathYes = MazeSolver.AStar();
+
         int[] values = pathYes.get(temp);
         Rectangle cell = new Rectangle();
 
@@ -85,7 +82,7 @@ public class MazeSolverController {
         cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight())); // Height of each rectangle
 
 
-        grid.add(cell, values[0], values[1]);
+        grid.add(cell, values[1], values[0]);
 
     }
 

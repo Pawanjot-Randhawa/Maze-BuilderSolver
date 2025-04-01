@@ -42,3 +42,4 @@ build/
 *.o
 *.dll
 log.txt
+*.log
