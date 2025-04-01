@@ -1,6 +1,11 @@
 package org.example;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
+import javafx.util.Duration;
 import org.example.Native.MazeSolver;
 
 import javafx.fxml.FXML;
@@ -15,8 +20,9 @@ import javafx.scene.shape.Rectangle;
 public class MazeSolverController {
     private final ViewFactory viewFactory;
     private final Maze maze;
-    List<int[]> pathYes;
-    int temp;
+    List<int[]> solvingSteps;
+    private int step;
+    Timeline solvingAnimation;
 
     //setting colors
     Color start = Color.LIGHTGREEN;
@@ -28,11 +34,9 @@ public class MazeSolverController {
     public MazeSolverController(ViewFactory viewFactory, Maze maze) {
         this.viewFactory = viewFactory;
         this.maze = maze;
-        System.out.println("Maze Solver Controller");
-        printMazeArray(this.maze.getMazeArray());
         MazeSolver.InitializeMaze(maze.getMazeArray());
-        this.pathYes = MazeSolver.AStar();
-        this.temp = 0;
+        this.solvingSteps = MazeSolver.AStar();
+        this.step = 0;
     }
 
     @FXML
@@ -46,6 +50,8 @@ public class MazeSolverController {
     @FXML
     private Button skipBtn;
     @FXML
+    private Button resetBtn;
+    @FXML
     private Spinner playSpeed;;
     @FXML
     private GridPane grid;
@@ -53,33 +59,70 @@ public class MazeSolverController {
 
     @FXML
     public void initialize() {
-        System.out.println("Maze Solver Start Initialized");
         switchBuild.setOnAction(event -> {
             viewFactory.showMazeBuilderView(getMazeArray());
         });
         nextStep.setOnAction(event -> {
-            tempPlay();
-            temp += 1;
+            playStep();
+            step += 1;
+            if(step>=solvingSteps.size()){
+                nextStep.setDisable(true);
+                return;
+            }
+            solvingAnimation.setCycleCount(solvingSteps.size()-(step));
         });
+        playPause.setOnAction(event -> {
+            if(playPause.isSelected()){
+                solvingAnimation.play();
+            }
+            if(!playPause.isSelected()){
+                solvingAnimation.pause();
+            }
+        });
+        solvingAnimation = new Timeline(
+                new KeyFrame(Duration.millis(750), event -> {
+                    playStep();
+                    step += 1;
+                })
+        );
+        solvingAnimation.setCycleCount(solvingSteps.size()-(step));
+        solvingAnimation.setOnFinished(event -> {
+            playPause.setSelected(false);
+            playPause.setDisable(true);
+            nextStep.setDisable(true);
+        });
+        resetBtn.setOnAction(event -> {
+            solvingAnimation.stop();
+            step = 0;
+            solvingAnimation.setCycleCount(solvingSteps.size()-(step));
+            nextStep.setDisable(false);
+            playPause.setDisable(false);
+            playPause.setSelected(false);
+            copyMazeArray();
+
+        });
+
+
         copyMazeArray();
-        System.out.println("Maze Solver Initialized");
 
     }
 
-    public void tempPlay(){
-        
-        for(var pairs : this.pathYes) {
-            System.out.println(pairs[0] + " , " + pairs[1]);
+    public void playStep(){
+        //temp way to stop it from breaking
+        if(step>=solvingSteps.size()){
+            System.out.println("Force-Stop");
+            return;
         }
 
-        int[] values = pathYes.get(temp);
+        int[] values = solvingSteps.get(step);
         Rectangle cell = new Rectangle();
 
-        cell.setFill(Color.GAINSBORO);
+        cell.setFill(Color.DARKOLIVEGREEN);
 
-        cell.widthProperty().bind(grid.widthProperty().divide(maze.getMazeWidth())); // Width of each rectangle
-        cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight())); // Height of each rectangle
-
+        cell.widthProperty().bind(grid.widthProperty().divide(maze.getMazeWidth()*3)); // times 2 to make it smaller as the denominator needs to be bigger
+        cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight()*3));
+        grid.setHalignment(cell, HPos.CENTER);
+        grid.setValignment(cell, VPos.CENTER);
 
         grid.add(cell, values[1], values[0]);
 
