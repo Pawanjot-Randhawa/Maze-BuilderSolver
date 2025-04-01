@@ -47,8 +47,9 @@ JNIEXPORT jboolean JNICALL Java_org_example_Native_MazeSolver_InitializeMaze
 
       env->ReleaseIntArrayElements(currentRow, rawInts, 0);
     }
+    logger.Info("CHECK LOGGER");
 
-    matrix.Print();
+    //matrix.Print();
 
     return true;  
 }

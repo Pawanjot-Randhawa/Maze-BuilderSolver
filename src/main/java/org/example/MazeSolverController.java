@@ -7,10 +7,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.control.Spinner;
+import org.example.Native.MazeSolver;
+
+import java.util.List;
 
 public class MazeSolverController {
     private final ViewFactory viewFactory;
     private final Maze maze;
+    List<int[]> pathYes;
+    int temp;
 
     //setting colors
     Color start = Color.LIGHTGREEN;
@@ -22,6 +27,11 @@ public class MazeSolverController {
     public MazeSolverController(ViewFactory viewFactory, Maze maze) {
         this.viewFactory = viewFactory;
         this.maze = maze;
+        System.out.println("Maze Solver Controller");
+        printMazeArray(this.maze.getMazeArray());
+        MazeSolver.InitializeMaze(this.maze.getMazeArray());
+        //this.pathYes = MazeSolver.AStar();
+        this.temp = 0;
     }
 
     @FXML
@@ -45,7 +55,25 @@ public class MazeSolverController {
         switchBuild.setOnAction(event -> {
             viewFactory.showMazeBuilderView(getMazeArray());
         });
+        nextStep.setOnAction(event -> {
+            tempPlay();
+            temp += 1;
+        });
         copyMazeArray();
+
+    }
+
+    public void tempPlay(){
+        int[] values = pathYes.get(temp);
+        Rectangle cell = new Rectangle();
+
+        cell.setFill(Color.GAINSBORO);
+
+        cell.widthProperty().bind(grid.widthProperty().divide(maze.getMazeWidth()/2)); // Width of each rectangle
+        cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight()/2)); // Height of each rectangle
+
+
+        grid.add(cell, values[0], values[1]);
 
     }
 
