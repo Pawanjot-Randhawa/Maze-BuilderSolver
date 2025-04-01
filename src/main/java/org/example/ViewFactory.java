@@ -45,7 +45,6 @@ public class ViewFactory {
             MazeSolverController controller = new MazeSolverController(this, mazeArray);
 
             loader.setController(controller);
-
             Parent root = loader.load();
 
             stage.setScene(new Scene(root));

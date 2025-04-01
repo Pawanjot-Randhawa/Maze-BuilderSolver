@@ -16,6 +16,7 @@ public class MazeSolverController {
     private final Maze maze;
     List<int[]> pathYes;
     int temp;
+    private Thread setup;
 
     //setting colors
     Color start = Color.LIGHTGREEN;
@@ -29,8 +30,9 @@ public class MazeSolverController {
         this.maze = maze;
         System.out.println("Maze Solver Controller");
         printMazeArray(this.maze.getMazeArray());
-        MazeSolver.InitializeMaze(this.maze.getMazeArray());
-        //this.pathYes = MazeSolver.AStar();
+        this.setup = new Thread(() -> {
+            MazeSolver.InitializeMaze(this.maze.getMazeArray());
+        });
         this.temp = 0;
     }
 
@@ -52,6 +54,7 @@ public class MazeSolverController {
 
     @FXML
     public void initialize() {
+        System.out.println("Maze Solver Start Initialized");
         switchBuild.setOnAction(event -> {
             viewFactory.showMazeBuilderView(getMazeArray());
         });
@@ -60,17 +63,26 @@ public class MazeSolverController {
             temp += 1;
         });
         copyMazeArray();
+        System.out.println("Maze Solver Initialized");
 
     }
 
     public void tempPlay(){
+        if(this.setup.isAlive()){
+            try{
+                this.setup.join();
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+        this.pathYes = MazeSolver.AStar();
         int[] values = pathYes.get(temp);
         Rectangle cell = new Rectangle();
 
         cell.setFill(Color.GAINSBORO);
 
-        cell.widthProperty().bind(grid.widthProperty().divide(maze.getMazeWidth()/2)); // Width of each rectangle
-        cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight()/2)); // Height of each rectangle
+        cell.widthProperty().bind(grid.widthProperty().divide(maze.getMazeWidth())); // Width of each rectangle
+        cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight())); // Height of each rectangle
 
 
         grid.add(cell, values[0], values[1]);
