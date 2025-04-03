@@ -56,6 +56,7 @@ template <class T>
 void Matrix<T>::Clear() {
     this->DestructMatrix();
     this->path.clear(); 
+    this->goals.clear();
 }
 
 
@@ -99,7 +100,7 @@ void Matrix<T>::Initialize(
   if(this->matrix) {
     this->DestructMatrix();
   }
-    
+  this->Clear();
   this->SetDimensions(rows, cols);
   this->InitializeMatrix();
 }

@@ -1,14 +1,13 @@
 package org.example;
 import java.util.List;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.geometry.HPos;
-import javafx.geometry.VPos;
-import javafx.util.Duration;
 import org.example.Native.MazeSolver;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
@@ -16,6 +15,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 public class MazeSolverController {
     private final ViewFactory viewFactory;
@@ -32,6 +32,7 @@ public class MazeSolverController {
 
 
     public MazeSolverController(ViewFactory viewFactory, Maze maze) {
+        System.out.println("Created Maze Solver Controller");
         this.viewFactory = viewFactory;
         this.maze = maze;
         MazeSolver.InitializeMaze(maze.getMazeArray());
