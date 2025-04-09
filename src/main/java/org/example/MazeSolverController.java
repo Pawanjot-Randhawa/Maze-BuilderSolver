@@ -67,17 +67,23 @@ public class MazeSolverController {
             playStep();
             step += 1;
             if(step>=solvingSteps.size()){
+                playPause.setDisable(true);
                 nextStep.setDisable(true);
-                return;
             }
-            solvingAnimation.setCycleCount(solvingSteps.size()-(step));
         });
         playPause.setOnAction(event -> {
-            if(playPause.isSelected()){
+            if(playPause.isSelected()){ //on toggle on
+
+                solvingAnimation.setCycleCount(solvingSteps.size()-(step)); //update animation size based on steps
+
                 solvingAnimation.play();
+                nextStep.setDisable(true);
+                lastStep.setDisable(true);
             }
-            if(!playPause.isSelected()){
-                solvingAnimation.pause();
+            if(!playPause.isSelected()){ //on toggle off
+                solvingAnimation.stop();
+                nextStep.setDisable(false);
+                lastStep.setDisable(false);
             }
         });
         solvingAnimation = new Timeline(
@@ -86,7 +92,6 @@ public class MazeSolverController {
                     step += 1;
                 })
         );
-        solvingAnimation.setCycleCount(solvingSteps.size()-(step));
         solvingAnimation.setOnFinished(event -> {
             playPause.setSelected(false);
             playPause.setDisable(true);
@@ -95,7 +100,6 @@ public class MazeSolverController {
         resetBtn.setOnAction(event -> {
             solvingAnimation.stop();
             step = 0;
-            solvingAnimation.setCycleCount(solvingSteps.size()-(step));
             nextStep.setDisable(false);
             playPause.setDisable(false);
             playPause.setSelected(false);
@@ -111,7 +115,7 @@ public class MazeSolverController {
     public void playStep(){
         //temp way to stop it from breaking
         if(step>=solvingSteps.size()){
-            System.out.println("Force-Stop");
+            System.out.println("Force-Stop, this should never trigger");
             return;
         }
 
