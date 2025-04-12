@@ -1,6 +1,7 @@
 package org.example;
 import java.util.List;
 
+import javafx.scene.control.*;
 import org.example.Native.MazeSolver;
 
 import javafx.animation.KeyFrame;
@@ -9,9 +10,6 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -53,7 +51,7 @@ public class MazeSolverController {
     @FXML
     private Button resetBtn;
     @FXML
-    private Spinner playSpeed;;
+    private ComboBox playSpeed;;
     @FXML
     private GridPane grid;
 
@@ -89,7 +87,7 @@ public class MazeSolverController {
             }
         });
         solvingAnimation = new Timeline(
-                new KeyFrame(Duration.millis(750), event -> {
+                new KeyFrame(Duration.millis(1000), event -> {
                     playStep();
                     step += 1;
                 })
@@ -98,6 +96,17 @@ public class MazeSolverController {
             playPause.setSelected(false);
             updatePlaybackButtons();
         });
+
+        playSpeed.getItems().addAll("0.5x", "1x", "1.5x", "2x", "2.5x", "3x", "5x");
+        playSpeed.setValue("1.5x");
+        solvingAnimation.setRate(1.5);
+        playSpeed.setEditable(false);
+        playSpeed.setOnAction(event -> {
+            solvingAnimation.setRate(Double.parseDouble(playSpeed.getValue().toString().substring(0, playSpeed.getValue().toString().length() - 1)));
+
+        });
+
+
         resetBtn.setOnAction(event -> {
             solvingAnimation.stop();
             step = 0;

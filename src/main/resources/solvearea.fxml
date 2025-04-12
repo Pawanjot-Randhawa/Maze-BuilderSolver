@@ -2,8 +2,8 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -51,7 +51,7 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="50.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Spinner fx:id="playSpeed" prefHeight="50.0" prefWidth="80.0" />
+                              <ComboBox fx:id="playSpeed" prefHeight="50.0" prefWidth="80.0" />
                               <Button fx:id="nextStep" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" text="Next-Step" />
                               <Button fx:id="skipBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="80.0" text="SkipToEnd" />
                            </children>
