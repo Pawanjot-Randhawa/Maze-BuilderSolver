@@ -66,14 +66,13 @@ public class MazeSolverController {
         nextStep.setOnAction(event -> {
             playStep();
             step += 1;
-            if(step>=solvingSteps.size()){
-                playPause.setDisable(true);
-                nextStep.setDisable(true);
-            }
+            updatePlaybackButtons();
         });
+        lastStep.setDisable(true); //on start it should be off
         lastStep.setOnAction(event -> {
             removeStep();
             step -= 1;
+            updatePlaybackButtons();
         });
         playPause.setOnAction(event -> {
             if(playPause.isSelected()){ //on toggle on
@@ -86,8 +85,7 @@ public class MazeSolverController {
             }
             if(!playPause.isSelected()){ //on toggle off
                 solvingAnimation.stop();
-                nextStep.setDisable(false);
-                lastStep.setDisable(false);
+                updatePlaybackButtons();
             }
         });
         solvingAnimation = new Timeline(
@@ -98,13 +96,13 @@ public class MazeSolverController {
         );
         solvingAnimation.setOnFinished(event -> {
             playPause.setSelected(false);
-            playPause.setDisable(true);
-            nextStep.setDisable(true);
+            updatePlaybackButtons();
         });
         resetBtn.setOnAction(event -> {
             solvingAnimation.stop();
             step = 0;
             nextStep.setDisable(false);
+            lastStep.setDisable(true);
             playPause.setDisable(false);
             playPause.setSelected(false);
             copyMazeArray();
@@ -116,10 +114,23 @@ public class MazeSolverController {
 
     }
 
+    public void updatePlaybackButtons(){
+        lastStep.setDisable(step == 0); //if we are on first step then the button should be disabled
+
+        if(step>=solvingSteps.size()){
+            playPause.setDisable(true);
+            nextStep.setDisable(true);
+        }else{
+            playPause.setDisable(false);
+            nextStep.setDisable(false);
+        }
+    }
+
     public void playStep(){
         //temp way to stop it from breaking
         if(step>=solvingSteps.size()){
-            System.out.println("Force-Stop NEXT-STEP, this should never trigger");
+            System.out.println("Force-Stop NEXT-STEP, timing issue");
+            step = this.solvingSteps.size()-1; //the program sometimes break due to a weird timing issue, this will fix any weird bugs
             return;
         }
 
