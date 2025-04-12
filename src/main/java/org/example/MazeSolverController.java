@@ -71,6 +71,10 @@ public class MazeSolverController {
                 nextStep.setDisable(true);
             }
         });
+        lastStep.setOnAction(event -> {
+            removeStep();
+            step -= 1;
+        });
         playPause.setOnAction(event -> {
             if(playPause.isSelected()){ //on toggle on
 
@@ -115,7 +119,7 @@ public class MazeSolverController {
     public void playStep(){
         //temp way to stop it from breaking
         if(step>=solvingSteps.size()){
-            System.out.println("Force-Stop, this should never trigger");
+            System.out.println("Force-Stop NEXT-STEP, this should never trigger");
             return;
         }
 
@@ -131,6 +135,15 @@ public class MazeSolverController {
 
         grid.add(cell, values[1], values[0]);
 
+    }
+
+    public void removeStep(){
+        //avoid code breaking
+        if(step<0){
+            System.out.println("Force-Stop LAST-STEP, this should never trigger");
+            return;
+        }
+        grid.getChildren().remove(grid.getChildren().size()-1); //the get children preserves insertion order to just remove the last one
     }
 
     public void copyMazeArray(){
