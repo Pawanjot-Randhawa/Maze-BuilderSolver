@@ -110,10 +110,7 @@ public class MazeSolverController {
         resetBtn.setOnAction(event -> {
             solvingAnimation.stop();
             step = 0;
-            nextStep.setDisable(false);
-            lastStep.setDisable(true);
-            playPause.setDisable(false);
-            playPause.setSelected(false);
+            updatePlaybackButtons();
             copyMazeArray();
 
         });
@@ -131,6 +128,7 @@ public class MazeSolverController {
             nextStep.setDisable(true);
         }else{
             playPause.setDisable(false);
+            playPause.setSelected(false);
             nextStep.setDisable(false);
         }
     }
