@@ -264,6 +264,7 @@ void Matrix<T>::AStar() {
   }
 }
 
+template <class T>
 void Matrix<T>::Dijkstra() {
   using Position = std::pair<int, int>;
   const int baseCost{0};
@@ -286,7 +287,7 @@ void Matrix<T>::Dijkstra() {
   std::unordered_map<WeightedNode, WeightedNode> previous{};
 
   for(int r = 0; r < this->rows; ++r) {
-    for(int j = 0; j < this->cols; ++j) {
+    for(int c = 0; c < this->cols; ++c) {
       distances[{r,c}] = std::numeric_limits<double>::infinity();
     }
   }
@@ -300,8 +301,8 @@ void Matrix<T>::Dijkstra() {
     WeightedNode current = pq.top();
     pq.pop();
 
-    const int row{current.row};
-    const int col{current.col};
+    int row{current.row};
+    int col{current.col};
 
     // found a goal, get out of here
     if(this->isGoal(row, col)) {
@@ -311,8 +312,8 @@ void Matrix<T>::Dijkstra() {
     }
 
     for(const Position& dir : directions) {
-      const int newRow{row + dir.first};
-      const int newCol{col + dir.second};
+      int newRow{row + dir.first};
+      int newCol{col + dir.second};
 
       if (!this->isValidPosition(newRow, newCol)) continue;
       if (this->isBlocked(newRow, newCol)) continue;
@@ -323,7 +324,7 @@ void Matrix<T>::Dijkstra() {
       if (newDist < distances[{newRow, newCol}]) {
         distances[{newRow, newCol}] = newDist;
         previous[{newRow, newCol}] = {row, col};
-        pq.push(Node(newDist, {newRow, newCol}));
+        pq.push(WeightedNode(newDist, {newRow, newCol}));
       }
     }
   }
