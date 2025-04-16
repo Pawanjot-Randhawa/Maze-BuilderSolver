@@ -7,12 +7,14 @@
 #include <limits>
 #include <utility>
 #include <algorithm>
+#include <unordered_map>
 #include <iostream>
 
 
 #include "Bit.hpp"
 #include "Cell.hpp"
 #include "Logger.h"
+#include "Weighted_Node.hpp"
 
 template <class T>
 class Matrix {
@@ -63,6 +65,7 @@ public:
     void Set(const int& row, const int& col, const T& value);
 
     void AStar();
+    void Dijkstra();
     void FindPath(std::vector<std::vector<Cell>>& cells, std::pair<int, int> destination);
 
     ~Matrix();
