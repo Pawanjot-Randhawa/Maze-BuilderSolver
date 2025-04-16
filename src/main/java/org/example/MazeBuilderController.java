@@ -143,6 +143,7 @@
                    }else if (mazeArray[row][col]==8) {
                        cell.setFill(start);
                        this.startPoint = 1;
+                       this.lastStart = cell;
                    }else if (mazeArray[row][col]==3) {
                        cell.setFill(end);
                        this.endPoint += 1;
