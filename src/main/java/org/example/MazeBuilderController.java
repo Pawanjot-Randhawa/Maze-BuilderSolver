@@ -65,7 +65,15 @@
            endToggle.setToggleGroup(tools);
 
            temp_back.setOnAction(event -> {
-               viewFactory.showMazeSolverView(getMazeArray());
+               if(startPoint == 1 && endPoint >= 1){
+                   viewFactory.showMazeSolverView(getMazeArray());
+               }else{
+                   Alert alert = new Alert(Alert.AlertType.ERROR);
+                   alert.setTitle("Incompatible Maze");
+                   alert.setHeaderText(null);
+                   alert.setContentText("The Maze needs at least one starting point and at least one ending point in order to be solvable");
+                   alert.showAndWait();
+               }
            });
            generateGridButton.setOnAction(event -> {
                createMaze();
