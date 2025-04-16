@@ -1,6 +1,7 @@
    package org.example;
 
    import javafx.fxml.FXML;
+   import javafx.scene.control.Alert;
    import javafx.scene.control.Button;
 
    public class MainMenuController {
@@ -11,12 +12,22 @@
        }
 
        @FXML
-       private Button new_maze_btn;
+       private Button newMazeBtn;
+       @FXML
+       private Button openMazeBtn;
 
        @FXML
        public void initialize() {
-           new_maze_btn.setOnAction(event -> {
+           newMazeBtn.setOnAction(event -> {
                viewFactory.showMazeBuilderView(null);
+           });
+           openMazeBtn.setOnAction(event -> {
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+               alert.setTitle("Access Denied");
+               alert.setHeaderText(null);
+               alert.setContentText("Feature Is In Development.");
+               alert.showAndWait();
+
            });
        }
    }
