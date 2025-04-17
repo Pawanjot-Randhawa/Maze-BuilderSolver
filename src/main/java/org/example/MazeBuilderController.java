@@ -11,6 +11,7 @@
    import javafx.scene.shape.Rectangle;
    import javafx.scene.input.MouseEvent;
    import javafx.geometry.Insets;
+   import org.example.Native.MazeSolver;
 
    public class MazeBuilderController {
        private final ViewFactory viewFactory;
@@ -66,8 +67,17 @@
 
            temp_back.setOnAction(event -> {
                if(startPoint == 1 && endPoint >= 1){
-                   viewFactory.showMazeSolverView(getMazeArray());
-               }else{
+                   MazeSolver.InitializeMaze(getMaze().getMazeArray());
+                   if(MazeSolver.AStar().isEmpty()){ //maze can not be solved
+                       Alert alert = new Alert(Alert.AlertType.ERROR);
+                       alert.setTitle("Invalid Maze");
+                       alert.setHeaderText(null);
+                       alert.setContentText("The Maze has no paths from start to finish");
+                       alert.showAndWait();
+                   }else{              //success
+                   viewFactory.showMazeSolverView(getMaze());
+                   }
+               }else{ //no starts or ends
                    Alert alert = new Alert(Alert.AlertType.ERROR);
                    alert.setTitle("Incompatible Maze");
                    alert.setHeaderText(null);
@@ -188,7 +198,7 @@
            }
        }
 
-       private Maze getMazeArray(){
+       private Maze getMaze(){
            int[][] mazeArray = new int[height][width];
 
            for (Node cell : grid.getChildren()) {
