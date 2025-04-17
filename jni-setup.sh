@@ -17,9 +17,9 @@ JAVA_INCLUDE_PATH="$JAVA_HOME/include"
 JAVA_INCLUDE_LINUX_PATH="$JAVA_HOME/include/linux"
 
 echo "Compiling C++ Code"
-g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/org_example_Native_MazeSolver.cpp" -o Solver.o
-g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Logger.cpp" -o Log.o
-g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Matrix.cpp" -o Matrix.o
+g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/org_example_Native_MazeSolver.cpp" -o Solver.o
+g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Logger.cpp" -o Log.o
+g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Matrix.cpp" -o Matrix.o
 
 echo "Linking C++ Code"
 g++ -shared -o libnative.so Solver.o Log.o Matrix.o
