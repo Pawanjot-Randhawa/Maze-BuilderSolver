@@ -10,7 +10,7 @@ headersDIR="lib/headers"
 srcDIR="src/main/java/org/example"
 
 echo "Generating headers into $headersDIR"
-javac -h "$headersDIR" "$srcDIR/native/"**.java "$srcDIR/Maze.java"
+javac -h "$headersDIR" $(find "$srcDIR/Native/" -name "*.java") "$srcDIR/Maze.java"
 
 # Java Include Directories
 JAVA_INCLUDE_PATH="$JAVA_HOME/include"
