@@ -22,4 +22,4 @@ g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Logger.cp
 g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Matrix.cpp" -o Matrix.o
 
 echo "Linking C++ Code"
-g++ -shared -o libnative.so Solver.o Log.o Matrix.o -Wl,--add-stdcall-alias
+g++ -shared -o libnative.so Solver.o Log.o Matrix.o
