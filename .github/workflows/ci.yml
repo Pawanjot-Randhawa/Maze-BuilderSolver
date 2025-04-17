@@ -1,0 +1,34 @@
+name: ci
+
+on:
+    pull_request:
+      branches:
+        - main
+    push:
+      branches:
+        - main
+
+jobs:
+    maven:
+        name: Maven build
+        runs-on: ubuntu-latest
+        steps:
+            
+            - name: Checkout Code
+              uses: actions/checkout@v4
+            
+
+            - name: Clean Validate Maven
+              run: mvn clean validate
+            
+            
+            - name: Clean Compile Maven
+              run: mvn clean compile
+
+            
+            - name: Clean Verify Maven
+              run: mvn clean verify
+
+            
+            - name: Clean Maven Tests
+              run: mvn clean test
