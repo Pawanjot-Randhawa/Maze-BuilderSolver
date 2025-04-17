@@ -60,6 +60,7 @@ public:
 
     void Clear();
     void Print();
+    void SolveWith(const std::string& str);
     
     void SetWall(const T& value);
     void Set(const int& row, const int& col, const T& value);

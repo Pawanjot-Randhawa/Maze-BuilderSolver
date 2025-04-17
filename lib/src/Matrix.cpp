@@ -346,5 +346,14 @@ void Matrix<T>::Dijkstra() {
 }
 
 
+template <class T>
+void Matrix<T>::SolveWith(std::string& str) {
+  if(str == "AStar") {
+    this->AStar();
+  } else {
+    this->Dijkstra();
+  }
+}
+
 template class Matrix<int>;
 
