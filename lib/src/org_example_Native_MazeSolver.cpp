@@ -6,7 +6,7 @@
 
 #include <jni.h>
 
-#include "../headers/Logger.h"
+#include "../headers/Logger.hpp"
 #include "../headers/org_example_Native_MazeSolver.h"
 #include "../headers/Matrix.hpp"
 
@@ -15,6 +15,7 @@
 #define PATH 0
 #define START 8
 
+std::string jstring2string(JNIEnv* env, jstring jStr);
 
 JNIEXPORT void JNICALL Java_org_example_Native_MazeSolver_sayHello
 (JNIEnv *, jclass) {
@@ -108,16 +109,9 @@ JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_SolveMaze
     logger.Info("Solving Maze");
     Matrix<int>& matrix = Matrix<int>::GetInstance();
     matrix.SolveWith(
-        jstring2string(str)
+        jstring2string(env, str)
     );
     const auto path = matrix.GetPath();
-
-    std::string str{};
-    for(const auto& p : path) {
-    str += std::to_string(p.first) + " " + std::to_string(p.second) + "\n"; 
-    }
-    std::cout << str << "\n";
-    logger.Info(str.c_str());
 
     // Get java methods
     jclass arrayListClass = env->FindClass("java/util/ArrayList");

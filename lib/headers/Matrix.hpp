@@ -13,7 +13,7 @@
 
 #include "Bit.hpp"
 #include "Cell.hpp"
-#include "Logger.h"
+#include "Logger.hpp"
 #include "Weighted_Node.hpp"
 
 template <class T>

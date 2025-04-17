@@ -347,10 +347,12 @@ void Matrix<T>::Dijkstra() {
 
 
 template <class T>
-void Matrix<T>::SolveWith(std::string& str) {
+void Matrix<T>::SolveWith(const std::string& str) {
   if(str == "AStar") {
+    logger.Debug("Using AStar");
     this->AStar();
   } else {
+    logger.Debug("Using Dijkstra");
     this->Dijkstra();
   }
 }
