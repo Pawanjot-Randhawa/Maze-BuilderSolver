@@ -53,8 +53,12 @@
                 </executions>
                 <configuration>
                     <target>
-                        <exec executable="powershell">
-                            <arg value=".\jni-setup.ps1"/> 
+                        <exec executable="sh" osfamily="unix">
+                            <arg value="./jni-setup.sh"/>
+                        </exec>
+
+                        <exec executable="powershell" osfamily="windows">
+                            <arg value="./jni-setup.ps1"/>
                         </exec>
                     </target>
                 </configuration>
