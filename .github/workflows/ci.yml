@@ -11,7 +11,19 @@ on:
 jobs:
     maven:
         name: Maven build
-        runs-on: ubuntu-latest
+        runs-on: windows-latest
         steps:
+            
+            - name: Checkout Code
+              uses: actions/checkout@v4
+            
+
+            - name: Set up JDK 21
+              uses: actions/setup-java@v4
+              with:
+                distribution: 'temurin'
+                java-version: '21'
+      
+
             - name: Clean Verify Maven
               run: mvn clean verify
