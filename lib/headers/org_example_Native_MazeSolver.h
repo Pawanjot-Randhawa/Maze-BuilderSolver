@@ -39,6 +39,14 @@ JNIEXPORT jboolean JNICALL Java_org_example_Native_MazeSolver_InitializeMaze
 JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_AStar
   (JNIEnv *, jclass);
 
+/*
+ * Class:     org_example_Native_MazeSolver
+ * Method:    SolveMaze
+ * Signature: (Ljava/lang/String;)Ljava/util/List;
+ */
+JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_SolveMaze
+  (JNIEnv *, jclass, jstring);
+
 #ifdef __cplusplus
 }
 #endif

@@ -1,7 +1,6 @@
 package org.example;
 import java.util.List;
 
-import javafx.scene.control.*;
 import org.example.Native.MazeSolver;
 
 import javafx.animation.KeyFrame;
@@ -10,6 +9,9 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -34,7 +36,7 @@ public class MazeSolverController {
         this.viewFactory = viewFactory;
         this.maze = maze;
         MazeSolver.InitializeMaze(maze.getMazeArray());
-        this.solvingSteps = MazeSolver.AStar();
+        this.solvingSteps = MazeSolver.SolveMaze("AStar");
         this.step = 0;
     }
 

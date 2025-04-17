@@ -13,4 +13,6 @@ public class MazeSolver {
   // oh brother
   public static native boolean InitializeMaze(int[][] maze);
   public static native List<int[]> AStar();
+
+  public static native List<int[]> SolveMaze(String strategy);
 }
