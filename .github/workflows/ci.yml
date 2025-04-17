@@ -1,0 +1,17 @@
+name: ci
+
+on:
+    pull_request:
+      branches:
+        - main
+    push:
+      branches:
+        - main
+
+jobs:
+    maven:
+        name: Maven build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clean Verify Maven
+              run: mvn clean verify
