@@ -9,9 +9,23 @@ on:
         - main
 
 jobs:
-    maven:
+    cache_dependencies:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Cache Maven dependencies
+              uses: actions/cache@v3
+              with:
+                path: ~/.m2/repository
+                key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+                restore-keys: |
+                  ${{ runner.os }}-maven-
+
+    build:
         name: Maven build
-        runs-on: windows-latest
+        runs-on: ubuntu-latest
         steps:
             
             - name: Checkout Code
