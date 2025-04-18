@@ -6,16 +6,16 @@ import org.example.Native.MazeSolver;
 
 public class SolverAPI {
     private Maze maze;
-    private volatile SolverAPI helper;
+    private static volatile SolverAPI helper;
 
     private SolverAPI() {
         this.maze = null;
     }
 
-    public SolverAPI GetInstance(Maze maze) {   
+    public static SolverAPI GetInstance(Maze maze) {   
         SolverAPI localRef = helper;
         if(helper == null) {
-            synchronized (this) {
+            synchronized (SolverAPI.class) {
                 localRef = helper;
                 if(localRef == null) {
                     helper = localRef = new SolverAPI();
