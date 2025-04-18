@@ -1,8 +1,6 @@
 package org.example;
 import java.util.List;
 
-import org.example.Native.MazeSolver;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -35,8 +33,9 @@ public class MazeSolverController {
         System.out.println("Created Maze Solver Controller");
         this.viewFactory = viewFactory;
         this.maze = maze;
-        MazeSolver.InitializeMaze(maze.getMazeArray());
-        this.solvingSteps = MazeSolver.SolveMaze("AStar");
+
+        this.solvingSteps = SolverAPI.GetInstance(maze)
+                                     .SolveWith(SolveStrategy.DIJKSTRA);
         this.step = 0;
     }
 
