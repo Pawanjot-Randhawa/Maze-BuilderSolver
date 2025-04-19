@@ -7,10 +7,10 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -55,6 +55,8 @@ public class MazeSolverController {
     private ComboBox playSpeed;;
     @FXML
     private GridPane grid;
+    @FXML
+    private ScrollPane algoSelector;
 
 
     @FXML
@@ -118,6 +120,7 @@ public class MazeSolverController {
 
 
         copyMazeArray();
+        configureAlgorithms();
 
     }
 
@@ -191,6 +194,27 @@ public class MazeSolverController {
                 grid.add(cell, col, row);
             }
         }
+    }
+
+    public void configureAlgorithms(){
+        VBox content = new VBox();
+        content.setFillWidth(true);
+
+        ToggleGroup algos = new ToggleGroup();
+
+        String[] algorithms = {"A*", "Dijkstra", "Greedy", "DFS", "BFS"};
+
+        for (String algo : algorithms) {
+            ToggleButton button = new ToggleButton(algo);
+            button.setMinHeight(80);
+            button.setMaxWidth(Double.MAX_VALUE);
+            button.setToggleGroup(algos);
+            content.getChildren().add(button);
+
+        }
+        algoSelector.setFitToWidth(true);
+        algoSelector.setContent(content);
+
     }
 
     private Maze getMazeArray(){

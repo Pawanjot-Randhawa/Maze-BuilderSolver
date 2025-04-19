@@ -63,7 +63,7 @@
                         <Insets top="30.0" />
                     </padding>
                 </VBox>
-            <ScrollPane prefHeight="294.0" prefWidth="220.0" />
+            <ScrollPane fx:id="algoSelector" prefHeight="294.0" prefWidth="220.0" />
             </children>
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
