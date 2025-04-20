@@ -223,7 +223,6 @@ public class MazeSolverController {
         for (Node cell : grid.getChildren()) {
             int col = GridPane.getColumnIndex(cell);
             int row = GridPane.getRowIndex(cell);
-            cell = (Rectangle)cell;
             if(((Rectangle) cell).getFill().equals(wall)){
                 mazeArray[row][col] = 1;
             }else if(((Rectangle) cell).getFill().equals(path)){
