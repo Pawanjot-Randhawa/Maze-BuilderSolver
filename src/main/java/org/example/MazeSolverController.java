@@ -1,5 +1,6 @@
 package org.example;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -209,9 +210,27 @@ public class MazeSolverController {
             button.setMinHeight(80);
             button.setMaxWidth(Double.MAX_VALUE);
             button.setToggleGroup(algos);
+            button.setOnMousePressed(event -> {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Configure Algorithm Change");
+                confirmation.setHeaderText(null);
+                confirmation.setContentText("Are you sure you want to switch to the " + algo + " algorithm?");
+                confirmation.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                Optional<ButtonType> result = confirmation.showAndWait();
+                if (result.get() == ButtonType.YES) {
+                    button.setSelected(true);
+                    //change maze logic here
+                }else{
+                    event.consume();
+                }
+            });
+            if (algo.equals("A*")) {
+                button.setSelected(true);
+            }
             content.getChildren().add(button);
 
         }
+
         algoSelector.setFitToWidth(true);
         algoSelector.setContent(content);
 
