@@ -6,25 +6,37 @@ import javafx.scene.control.MenuItem;
 
 public class MenuBarBuilder {
     private ViewFactory viewFactory;
+    private MenuBar menuBar;
+    private Menu file;
 
-    public MenuBarBuilder() {
-        //this.viewFactory = viewFactory;
-
+    public MenuBarBuilder(ViewFactory viewFactory) {
+        this.viewFactory = viewFactory;
+        this.menuBar = new MenuBar();
+        this.file = new Menu("File");
 
     }
 
-    public MenuBar build() {
-        MenuBar menuBar = new MenuBar();
-
-        Menu file = new Menu("File");
+    //default items both bars will have
+    public void buildDefaultItems(){
         MenuItem algorithm = new MenuItem("Load");
         MenuItem save = new MenuItem("Save");
         MenuItem exit = new MenuItem("Exit");
+        exit.setOnAction(e -> {
+            viewFactory.showMainMenuView();
+        });
 
         file.getItems().addAll(algorithm, save, exit);
 
+    }
+
+    public MenuBar buildForBuilder(MazeBuilderController controller) {
+        buildDefaultItems();
+
         Menu edit = new Menu("Edit");
         MenuItem Clear = new MenuItem("Clear");
+        Clear.setOnAction(e -> {
+            controller.createMaze();
+        });
 
         edit.getItems().addAll(Clear);
 
@@ -37,6 +49,14 @@ public class MenuBarBuilder {
         menuBar.getMenus().addAll(file, edit, help);
 
         return menuBar;
+    }
+
+    public MenuBar buildForSolver() {
+        buildDefaultItems();
+
+        menuBar.getMenus().addAll(file);
+        return menuBar;
+
     }
 
 

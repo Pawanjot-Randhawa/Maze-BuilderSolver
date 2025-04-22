@@ -59,10 +59,9 @@
 
        @FXML
        public void initialize() {
-           MenuBarBuilder builder = new MenuBarBuilder();
+           MenuBarBuilder builder = new MenuBarBuilder(this.viewFactory);
 
-
-           borderRoot.setTop(builder.build());
+           borderRoot.setTop(builder.buildForBuilder(this));
 
 
            tools = new ToggleGroup();
