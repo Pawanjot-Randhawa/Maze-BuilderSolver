@@ -1,6 +1,8 @@
 package org.example;
 
 import java.util.List;
+
+@Deprecated
 public class StepGenerator {
     private List<int[]> path;
     private int index = 0;
