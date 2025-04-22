@@ -43,3 +43,4 @@ build/
 *.dll
 log.txt
 *.log
+*.db
