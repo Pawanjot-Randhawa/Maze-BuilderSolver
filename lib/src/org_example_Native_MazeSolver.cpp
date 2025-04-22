@@ -10,10 +10,11 @@
 #include "../headers/org_example_Native_MazeSolver.h"
 #include "../headers/Matrix.hpp"
 
-#define WALL 1
-#define GOAL 3
+#define WALL 8
+#define GOAL 1
 #define PATH 0
-#define START 8
+#define START 2
+#define BLOCKED 7
 
 std::string jstring2string(JNIEnv* env, jstring jStr);
 
@@ -39,7 +40,7 @@ JNIEXPORT jboolean JNICALL Java_org_example_Native_MazeSolver_InitializeMaze
     const int columns = {env->GetArrayLength(firstRow)};
     
     Matrix<int>& matrix = Matrix<int>::GetInstance();
-    matrix.Initialize(rows, columns, START, GOAL, WALL);
+    matrix.Initialize(rows, columns, START, GOAL, WALL, PATH, BLOCKED);
 
     for(int i = 0; i < rows; ++i) {
       jintArray currentRow = static_cast<jintArray>((env->GetObjectArrayElement(maze, i)));

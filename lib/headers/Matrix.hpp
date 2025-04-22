@@ -27,9 +27,15 @@ private:
     T startValue;
     T goalValue;
     T wallValue;
+    T pathValue;
+
+    // For BlockNdPath
+    T blockedValue;
 
     
     std::pair<int, int> startingPosition{};
+    std::pair<int, int> originalPlayerPosition{};
+
     std::vector<std::pair<int, int>> goals{};
     std::vector<std::pair<int, int>> path{};
     
@@ -40,6 +46,18 @@ private:
     bool isValidPosition(int& row, int& col);
     bool isBlocked(int& row, int& col);
     bool isGoal(int& row, int& col);
+    bool isDone();
+
+
+    void replaceSeven();
+    Bit validRow(int& row);
+    Bit validCol(int& col);
+    // Used for checking impossible
+    Bit IsInvalid(int row, int col);
+    // Used for checking backtracking
+    Bit ShouldBacktrackPosition(int row, int col);
+
+    void FixMaze();
 
 public:    
     static Matrix& GetInstance();
@@ -52,7 +70,9 @@ public:
       const int& cols, 
       const T& startValue, 
       const T& goalValue,
-      const T& wallValue
+      const T& wallValue,
+      const T& pathValue,
+      const T& blockedValue
     );
     
     T** GetMatrix();
@@ -68,6 +88,7 @@ public:
     void AStar();
     void Dijkstra();
     void BlockNdPath();
+
     void FindPath(std::vector<std::vector<Cell>>& cells, std::pair<int, int> destination);
 
     ~Matrix();
