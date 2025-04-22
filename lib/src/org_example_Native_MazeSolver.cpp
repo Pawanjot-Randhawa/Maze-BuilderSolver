@@ -13,7 +13,7 @@
 #define WALL 8
 #define GOAL 1
 #define PATH 0
-#define START 8
+#define START 2
 #define BLOCKED 7
 
 std::string jstring2string(JNIEnv* env, jstring jStr);
