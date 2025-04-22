@@ -67,6 +67,7 @@ public:
 
     void AStar();
     void Dijkstra();
+    void BlockNdPath();
     void FindPath(std::vector<std::vector<Cell>>& cells, std::pair<int, int> destination);
 
     ~Matrix();

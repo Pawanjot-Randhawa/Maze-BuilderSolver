@@ -357,5 +357,11 @@ void Matrix<T>::SolveWith(const std::string& str) {
   }
 }
 
+
+template <class T>
+void Matrix<T>::BlockNdPath() {
+  
+}
+
 template class Matrix<int>;
 
