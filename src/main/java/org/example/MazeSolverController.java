@@ -42,7 +42,7 @@ public class MazeSolverController {
         this.maze = maze;
 
         this.solvingSteps = SolverAPI.GetInstance(maze)
-                                     .SolveWith(SolveStrategy.BLOCKNDPATH);
+                                     .SolveWith(SolveStrategy.DIJKSTRA);
         this.step = 0;
     }
 
