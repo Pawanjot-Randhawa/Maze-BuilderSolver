@@ -185,13 +185,13 @@ public class MazeSolverController {
                 // Create a rectangle for each grid cell
                 Rectangle cell = new Rectangle();
 
-                if(mazeArray[row][col]==1){
+                if(mazeArray[row][col]==8){
                     cell.setFill(wall);
                 }else if(mazeArray[row][col]==0){
                     cell.setFill(path);
-                }else if (mazeArray[row][col]==8) {
+                }else if (mazeArray[row][col]==2) {
                     cell.setFill(start);
-                }else if (mazeArray[row][col]==3) {
+                }else if (mazeArray[row][col]==1) {
                     cell.setFill(end);
                 }
                 cell.setStroke(Color.BLACK);  // Add a border
@@ -250,13 +250,13 @@ public class MazeSolverController {
             int col = GridPane.getColumnIndex(cell);
             int row = GridPane.getRowIndex(cell);
             if(((Rectangle) cell).getFill().equals(wall)){
-                mazeArray[row][col] = 1;
+                mazeArray[row][col] = 8;
             }else if(((Rectangle) cell).getFill().equals(path)){
                 mazeArray[row][col] = 0;
             }else if (((Rectangle) cell).getFill().equals(start)) {
-                mazeArray[row][col] = 8;
+                mazeArray[row][col] = 2;
             }else if (((Rectangle) cell).getFill().equals(end)) {
-                mazeArray[row][col] = 3;
+                mazeArray[row][col] = 1;
             }
         }
         return new Maze(mazeArray, maze.getMazeWidth(), maze.getMazeHeight());

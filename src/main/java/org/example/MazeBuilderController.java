@@ -1,14 +1,27 @@
    package org.example;
 
+   import org.example.Native.MazeSolver;
+
    import javafx.fxml.FXML;
    import javafx.scene.Node;
+// Maybe delete me 
+   import javafx.scene.control.Alert;
+   import javafx.scene.control.Button;
+   import javafx.scene.control.ChoiceBox;
+   import javafx.scene.control.Label;
+   import javafx.scene.control.Toggle;
+   import javafx.scene.control.ToggleButton;
+   import javafx.scene.control.ToggleGroup;
+
    import javafx.scene.control.*;
    import javafx.scene.layout.*;
    import javafx.scene.paint.Color;
    import javafx.scene.shape.Rectangle;
+
    import javafx.scene.input.MouseEvent;
-   import javafx.geometry.Insets;
-   import org.example.Native.MazeSolver;
+   import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
    public class MazeBuilderController {
        private final ViewFactory viewFactory;
@@ -150,15 +163,15 @@
                    // Create a rectangle for each grid cell
                    Rectangle cell = new Rectangle();
 
-                   if(mazeArray[row][col]==1){
+                   if(mazeArray[row][col]==8){
                        cell.setFill(wall);
                    }else if(mazeArray[row][col]==0){
                        cell.setFill(path);
-                   }else if (mazeArray[row][col]==8) {
+                   }else if (mazeArray[row][col]==2) {
                        cell.setFill(start);
                        this.startPoint = 1;
                        this.lastStart = cell;
-                   }else if (mazeArray[row][col]==3) {
+                   }else if (mazeArray[row][col]==1) {
                        cell.setFill(end);
                        this.endPoint += 1;
                    }
@@ -210,13 +223,13 @@
                int row = GridPane.getRowIndex(cell);
                cell = (Rectangle)cell;
                if(((Rectangle) cell).getFill().equals(wall)){
-                   mazeArray[row][col] = 1;
+                   mazeArray[row][col] = 8;
                }else if(((Rectangle) cell).getFill().equals(path)){
                    mazeArray[row][col] = 0;
                }else if (((Rectangle) cell).getFill().equals(start)) {
-                   mazeArray[row][col] = 8;
+                   mazeArray[row][col] = 2;
                }else if (((Rectangle) cell).getFill().equals(end)) {
-                   mazeArray[row][col] = 3;
+                   mazeArray[row][col] = 1;
                }
            }
            return new Maze(mazeArray, width, height);
