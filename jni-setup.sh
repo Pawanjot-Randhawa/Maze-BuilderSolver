@@ -17,6 +17,9 @@ echo "Compiling C++ Code"
 g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/org_example_Native_MazeSolver.cpp" -c -o Solver.o
 g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Logger.cpp" -c -o Log.o
 g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Matrix.cpp" -c -o Matrix.o
+g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" "$nativeDIR/AStar.cpp" -c -o AStar.o
+g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" "$nativeDIR/Dijkstra.cpp" -c -o Dijkstra.o
+g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" "$nativeDIR/BlockNdPath.cpp" -c -o BlockNdPath.o
 
 echo "Linking C++ Code into libnative.so"
-g++ -shared -o libnative.so Solver.o Log.o Matrix.o
+g++ -shared -o libnative.so Solver.o Log.o Matrix.o AStar.o Dijkstra.o BlockNdPath.o

@@ -16,7 +16,12 @@ Write-Host "Compiling C++ Code"
 g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\org_example_Native_MazeSolver.cpp -o Solver.o
 g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\Logger.cpp -o Log.o
 g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\Matrix.cpp -o Matrix.o
+g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\AStar.cpp -o AStar.o
+g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\Dijkstra.cpp -o Dijkstra.o
+g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\BlockNdPath.cpp -o BlockNdPath.o
+
+
 
 # Linking C++ Code
 Write-Host "Linking C++ Code"
-g++ --% -shared -o native.dll Solver.o Log.o Matrix.o -Wl,--add-stdcall-alias
+g++ --% -shared -o native.dll Solver.o Log.o Matrix.o AStar.o Dijkstra.o BlockNdPath.o -Wl,--add-stdcall-alias
