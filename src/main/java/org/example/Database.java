@@ -1,0 +1,91 @@
+package org.example;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Database {
+
+    // Needs:
+    //
+    //  Read    Maze
+    //      - single
+    //      - all
+    //  Write   Maze
+
+
+    private static volatile Database helper;
+
+    public static Database GetInstance() {
+        Database localRef = helper;
+        if(helper == null) {
+            synchronized (SolverAPI.class) {
+                localRef = helper;
+                if(localRef == null) {
+                    helper = localRef = new Database();
+                }
+            }
+        }
+
+        return localRef;
+    }
+
+    public void CreateDBExample() {
+
+        var sql = "CREATE TABLE IF NOT EXISTS warehouses ("
+        + "	id INTEGER PRIMARY KEY,"
+        + "	name text NOT NULL,"
+        + "	capacity REAL"
+        + ");";
+
+        // 
+        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
+            System.out.println("Connection made");
+            var stmt = conn.createStatement();
+            stmt.execute(sql);
+
+        } catch(SQLException e) {
+            
+        }
+    }
+
+    public void InsertToDbExample() {
+        var names = new String[] {"Raw Materials", "Semifinished Goods", "Finished Goods"};
+        var capacities = new int[] {3000,4000,5000};    
+
+        String sql2 = "INSERT INTO warehouses(name,capacity) VALUES(?,?)";
+        
+        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
+            System.out.println("Connection made");
+            var pstmt = conn.prepareStatement(sql2);
+
+            for(int i = 0; i < 3; i++){
+                pstmt.setString(1, names[i]);
+                pstmt.setDouble(2, capacities[i]);
+                pstmt.executeUpdate();
+            }
+        } catch(SQLException e) {
+            
+        }
+    }
+
+    public void SelectAllExample() {
+        var sql3 = "SELECT id, name, capacity FROM warehouses";
+        
+        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
+            System.out.println("Connection made");
+            var stmt = conn.createStatement();
+
+            var rs = stmt.executeQuery(sql3);
+            while (rs.next()) {
+                System.out.printf("%-5s%-25s%-10s%n",
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getDouble("capacity")
+                );
+            }
+
+        } catch(SQLException e) {
+            
+        }
+    }
+}

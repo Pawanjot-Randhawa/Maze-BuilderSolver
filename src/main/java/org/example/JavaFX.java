@@ -40,9 +40,15 @@ public class JavaFX extends Application {
         //     System.out.println();
         // }
         
-        
+        // Should be Singleton
+        Database db = Database.GetInstance();
+        db.CreateDBExample();
+        db.InsertToDbExample();
+        db.SelectAllExample();
+
         
         launch();
     }
 
 }
+
