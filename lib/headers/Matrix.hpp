@@ -57,6 +57,8 @@ private:
     // Used for checking backtracking
     Bit ShouldBacktrackPosition(int row, int col);
 
+    void FixMaze();
+
 public:    
     static Matrix& GetInstance();
     Matrix(const Matrix&) = delete;

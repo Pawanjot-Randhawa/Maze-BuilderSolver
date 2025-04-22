@@ -140,9 +140,13 @@ void Matrix<T>::SolveWith(const std::string& str) {
   if(str == "AStar") {
     logger.Debug("Using AStar");
     this->AStar();
-  } else {
+  } else if (str == "Dijkstra") {
     logger.Debug("Using Dijkstra");
     this->Dijkstra();
+  } else {
+    logger.Debug("using custom BlockNdPath");
+    this->BlockNdPath();
+    this->FixMaze();
   }
 }
 
