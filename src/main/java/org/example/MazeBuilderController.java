@@ -3,10 +3,7 @@
    import javafx.fxml.FXML;
    import javafx.scene.Node;
    import javafx.scene.control.*;
-   import javafx.scene.layout.ColumnConstraints;
-   import javafx.scene.layout.GridPane;
-   import javafx.scene.layout.Priority;
-   import javafx.scene.layout.RowConstraints;
+   import javafx.scene.layout.*;
    import javafx.scene.paint.Color;
    import javafx.scene.shape.Rectangle;
    import javafx.scene.input.MouseEvent;
@@ -54,12 +51,19 @@
        private ChoiceBox<Integer> widthInput;
        @FXML
        private ChoiceBox<Integer> heightInput;
+       @FXML
+       private BorderPane borderRoot;
 
        @FXML
        private GridPane grid;
 
        @FXML
        public void initialize() {
+           MenuBarBuilder builder = new MenuBarBuilder(this.viewFactory);
+
+           borderRoot.setTop(builder.buildForBuilder(this));
+
+
            tools = new ToggleGroup();
 
            startToggle.setToggleGroup(tools);

@@ -9,6 +9,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -58,10 +59,16 @@ public class MazeSolverController {
     private GridPane grid;
     @FXML
     private ScrollPane algoSelector;
+    @FXML
+    private BorderPane borderRoot;
 
 
     @FXML
     public void initialize() {
+        MenuBarBuilder builder = new MenuBarBuilder(this.viewFactory);
+
+        borderRoot.setTop(builder.buildForSolver());
+
         switchBuild.setOnAction(event -> {
             viewFactory.showMazeBuilderView(getMazeArray());
         });
