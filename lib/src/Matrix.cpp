@@ -91,11 +91,15 @@ void Matrix<T>::Initialize(
   const int& cols, 
   const T& startValue, 
   const T& goalValue,
-  const T& wallValue
+  const T& wallValue,
+  const T& pathValue,
+  const T& blockedValue
 ) {
   this->startValue = startValue;
   this->goalValue = goalValue;
   this->wallValue = wallValue;
+  this->pathValue = pathValue;
+  this->blockedValue = blockedValue;
 
   if(this->matrix) {
     this->DestructMatrix();
@@ -358,10 +362,43 @@ void Matrix<T>::SolveWith(const std::string& str) {
 }
 
 
+
+template <class T>
+void Matrix<T>::replaceSeven(int& row, int& col) {
+  if(!this->validRow(row)) {
+    return this->matrix;
+  }
+
+  if(!this->validCol(col)) {
+    col = 0; 
+    return this->replaceSeven(row+1, col);
+  }
+
+  if(this->matrix[row][col] == this->blocked) {
+    this->matrix[row][col] = 0;
+  }
+}
+
+
+template <class T>
+Bit Matrix<T>::validRow(int& row) {
+  return row >= 0 && row < this->rows;
+}
+
+
+template <class T>
+Bit Matrix<T>::validCol(int& col) {
+  return col < this->cols && col >= 0;
+}
+
+
 template <class T>
 void Matrix<T>::BlockNdPath() {
+
   
 }
+
+
 
 template class Matrix<int>;
 

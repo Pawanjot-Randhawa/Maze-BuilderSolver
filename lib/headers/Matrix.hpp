@@ -27,6 +27,10 @@ private:
     T startValue;
     T goalValue;
     T wallValue;
+    T pathValue;
+
+    // For BlockNdPath
+    T blockedValue;
 
     
     std::pair<int, int> startingPosition{};
@@ -52,7 +56,9 @@ public:
       const int& cols, 
       const T& startValue, 
       const T& goalValue,
-      const T& wallValue
+      const T& wallValue,
+      const T& pathValue
+      const T& blockedValue
     );
     
     T** GetMatrix();
@@ -68,6 +74,13 @@ public:
     void AStar();
     void Dijkstra();
     void BlockNdPath();
+
+
+    void replaceSeven(int& row, int& col);
+    Bit validRow(int& row);
+    Bit validCol(int& col);
+
+
     void FindPath(std::vector<std::vector<Cell>>& cells, std::pair<int, int> destination);
 
     ~Matrix();
