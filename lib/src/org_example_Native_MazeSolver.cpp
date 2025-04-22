@@ -10,8 +10,8 @@
 #include "../headers/org_example_Native_MazeSolver.h"
 #include "../headers/Matrix.hpp"
 
-#define WALL 1
-#define GOAL 3
+#define WALL 8
+#define GOAL 1
 #define PATH 0
 #define START 8
 #define BLOCKED 7

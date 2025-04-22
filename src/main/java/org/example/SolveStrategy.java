@@ -7,7 +7,8 @@ package org.example;
  */
 public enum SolveStrategy {
     ASTAR("AStar"),
-    DIJKSTRA("Dijkstra"),;
+    DIJKSTRA("Dijkstra"),
+    BLOCKNDPATH("BlockNdPath"),;
 
     private String strategy = null;
     
