@@ -73,21 +73,4 @@ public class ViewFactory {
             e.printStackTrace();
         }
     }
-
-
-    private void loadView(String fxmlFile, String title) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Parent root = loader.load();
-
-            // If necessary, pass data to controller using loader.getController()
-
-            stage.setScene(new Scene(root));
-            stage.setTitle(title);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Handle errors in loading the FXML
-        }
-    }
 }

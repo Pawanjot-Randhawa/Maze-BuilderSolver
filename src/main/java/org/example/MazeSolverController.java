@@ -1,5 +1,6 @@
 package org.example;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -7,10 +8,11 @@ import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -55,10 +57,18 @@ public class MazeSolverController {
     private ComboBox playSpeed;;
     @FXML
     private GridPane grid;
+    @FXML
+    private ScrollPane algoSelector;
+    @FXML
+    private BorderPane borderRoot;
 
 
     @FXML
     public void initialize() {
+        MenuBarBuilder builder = new MenuBarBuilder(this.viewFactory);
+
+        borderRoot.setTop(builder.buildForSolver());
+
         switchBuild.setOnAction(event -> {
             viewFactory.showMazeBuilderView(getMazeArray());
         });
@@ -118,6 +128,7 @@ public class MazeSolverController {
 
 
         copyMazeArray();
+        configureAlgorithms();
 
     }
 
@@ -193,13 +204,51 @@ public class MazeSolverController {
         }
     }
 
+    public void configureAlgorithms(){
+        VBox content = new VBox();
+        content.setFillWidth(true);
+
+        ToggleGroup algos = new ToggleGroup();
+
+        String[] algorithms = {"A*", "Dijkstra", "Greedy", "DFS", "BFS"};
+
+        for (String algo : algorithms) {
+            ToggleButton button = new ToggleButton(algo);
+            button.setMinHeight(80);
+            button.setMaxWidth(Double.MAX_VALUE);
+            button.setToggleGroup(algos);
+            button.setOnMousePressed(event -> {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Configure Algorithm Change");
+                confirmation.setHeaderText(null);
+                confirmation.setContentText("Are you sure you want to switch to the " + algo + " algorithm?");
+                confirmation.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                Optional<ButtonType> result = confirmation.showAndWait();
+                if (result.get() == ButtonType.YES) {
+                    button.setSelected(true);
+                    //change maze logic here
+                }else{
+                    event.consume();
+                }
+            });
+            if (algo.equals("A*")) {
+                button.setSelected(true);
+            }
+            content.getChildren().add(button);
+
+        }
+
+        algoSelector.setFitToWidth(true);
+        algoSelector.setContent(content);
+
+    }
+
     private Maze getMazeArray(){
         int[][] mazeArray = new int[maze.getMazeHeight()][maze.getMazeWidth()];
 
         for (Node cell : grid.getChildren()) {
             int col = GridPane.getColumnIndex(cell);
             int row = GridPane.getRowIndex(cell);
-            cell = (Rectangle)cell;
             if(((Rectangle) cell).getFill().equals(wall)){
                 mazeArray[row][col] = 8;
             }else if(((Rectangle) cell).getFill().equals(path)){
