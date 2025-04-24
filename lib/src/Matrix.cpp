@@ -143,6 +143,9 @@ void Matrix<T>::SolveWith(const std::string& str) {
   } else if (str == "Dijkstra") {
     logger.Debug("Using Dijkstra");
     this->Dijkstra();
+  } else if (str == "Bfs") {
+    logger.Debug("Using BFS");
+    this->BFS(); 
   } else {
     logger.Debug("using custom BlockNdPath");
     this->BlockNdPath();
