@@ -20,6 +20,7 @@ g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\Matrix.cpp
 g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\AStar.cpp -o $buildDIR\AStar.o
 g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\Dijkstra.cpp -o $buildDIR\Dijkstra.o
 g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\BlockNdPath.cpp -o $buildDIR\BlockNdPath.o
+g++ -c -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" $nativeDIR\BFS.cpp -o $buildDIR\BFS.o
 
 
 
