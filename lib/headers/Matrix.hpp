@@ -8,6 +8,8 @@
 #include <utility>
 #include <algorithm>
 #include <unordered_map>
+#include <unordered_set>
+#include <queue>
 #include <iostream>
 
 
@@ -88,6 +90,7 @@ public:
     void AStar();
     void Dijkstra();
     void BlockNdPath();
+    void BFS();
 
     void FindPath(std::vector<std::vector<Cell>>& cells, std::pair<int, int> destination);
 
