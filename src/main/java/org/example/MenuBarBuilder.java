@@ -1,5 +1,6 @@
 package org.example;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -54,7 +55,46 @@ public class MenuBarBuilder {
     public MenuBar buildForSolver() {
         buildDefaultItems();
 
-        menuBar.getMenus().addAll(file);
+        Menu algos = new Menu("Algorithms");
+        MenuItem a = new MenuItem("A*");
+        MenuItem b = new MenuItem("Dijkstra");
+        MenuItem c = new MenuItem("BlockNPath");
+        MenuItem d = new MenuItem("DFS");
+        MenuItem e = new MenuItem("BFS");
+
+        algos.getItems().addAll(a, b, c, d, e);
+
+        for(MenuItem algo : algos.getItems()){
+            algo.setOnAction(event -> {
+                Alert info = new Alert(Alert.AlertType.INFORMATION);
+                info.setTitle(algo.getText());
+                info.setHeaderText(null);
+
+                switch(algo.getText()){
+                    case "A*":
+                        info.setContentText("Uses a heuristic (like distance to goal) to guide search; efficient and finds shortest path if the heuristic is admissible.");
+                        break;
+                    case "Dijkstra":
+                        info.setContentText("Expands outward based on lowest total cost; finds shortest path in weighted graphs without a heuristic.");
+                        break;
+                    case "BlockNPath":
+                        info.setContentText("Recursively explores paths in a predefined order. Upon reaching a dead end, the algorithm marks it as blocked and restarts, gradually refining the solution.");
+                        break;
+                    case "DFS":
+                        info.setContentText("IDK bro");
+                        break;
+                    case "BFS":
+                        info.setContentText("IDK bro.");
+                        break;
+                    default:
+                        info.setContentText("Error, this should not happen");
+
+                }
+                info.showAndWait();
+            });
+        }
+
+        menuBar.getMenus().addAll(file, algos);
         return menuBar;
 
     }

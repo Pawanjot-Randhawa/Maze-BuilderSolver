@@ -1,4 +1,5 @@
 package org.example;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -28,6 +30,15 @@ public class MazeSolverController {
     List<int[]> solvingSteps;
     private int step;
     Timeline solvingAnimation;
+    private Color solutionColor = Color.DARKOLIVEGREEN;
+    private List<Color> colorList = List.of(
+            //traffic lights
+            Color.RED,
+            Color.GREEN,
+            Color.BLUE
+    );
+    private boolean flag = true;
+    private int counter = 0;
 
     //setting colors
     Color start = Color.LIGHTGREEN;
@@ -42,7 +53,7 @@ public class MazeSolverController {
         this.maze = maze;
 
         this.solvingSteps = SolverAPI.GetInstance(maze)
-                                     .SolveWith(SolveStrategy.DIJKSTRA);
+                                     .SolveWith(SolveStrategy.BLOCKNDPATH);
         this.step = 0;
     }
 
@@ -159,9 +170,21 @@ public class MazeSolverController {
         }
 
         int[] values = solvingSteps.get(step);
+
+        if(Arrays.equals(values, solvingSteps.get(0))){
+            if (counter+1 == colorList.size()) {
+                this.solutionColor = colorList.get(0);
+                counter = 0;
+            }else{
+                counter += 1;
+                this.solutionColor = colorList.get(counter);
+            }
+
+        }
         Rectangle cell = new Rectangle();
 
-        cell.setFill(Color.DARKOLIVEGREEN);
+        cell.setFill(this.solutionColor);
+        //cell.setFill(Color.DARKOLIVEGREEN);
 
         cell.widthProperty().bind(grid.widthProperty().divide(maze.getMazeWidth()*3)); // times 2 to make it smaller as the denominator needs to be bigger
         cell.heightProperty().bind(grid.heightProperty().divide(maze.getMazeHeight()*3));
@@ -215,7 +238,7 @@ public class MazeSolverController {
 
         ToggleGroup algos = new ToggleGroup();
 
-        String[] algorithms = {"A*", "Dijkstra", "Greedy", "DFS", "BFS"};
+        String[] algorithms = {"A*", "Dijkstra", "BlockNPath", "DFS", "BFS"};
 
         for (String algo : algorithms) {
             ToggleButton button = new ToggleButton(algo);
