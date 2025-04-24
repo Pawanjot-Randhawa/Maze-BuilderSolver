@@ -62,6 +62,7 @@ public class MenuBarBuilder {
         MenuItem d = new MenuItem("DFS");
         MenuItem e = new MenuItem("BFS");
 
+        algos.getItems().addAll(a, b, c, d, e);
 
         for(MenuItem algo : algos.getItems()){
             algo.setOnAction(event -> {
@@ -92,7 +93,6 @@ public class MenuBarBuilder {
                 info.showAndWait();
             });
         }
-        algos.getItems().addAll(a, b, c, d, e);
 
         menuBar.getMenus().addAll(file, algos);
         return menuBar;
