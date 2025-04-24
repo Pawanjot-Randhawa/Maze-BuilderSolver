@@ -21,6 +21,8 @@ g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_LINUX_PATH" "$nativeDIR/Matrix
 g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" "$nativeDIR/AStar.cpp" -c -o "$nativeDIR/AStar.o"
 g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" "$nativeDIR/Dijkstra.cpp" -c -o "$nativeDIR/Dijkstra.o"
 g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" "$nativeDIR/BlockNdPath.cpp" -c -o "$nativeDIR/BlockNdPath.o"
+g++ -fPIC -I"$JAVA_INCLUDE_PATH" -I"$JAVA_INCLUDE_WIN32_PATH" "$nativeDIR/BFS.cpp" -c -o "$nativeDIR/BFS.o"
+
 
 echo "Linking C++ Code into libnative.so"
 g++ -shared -o libnative.so build/*.o
