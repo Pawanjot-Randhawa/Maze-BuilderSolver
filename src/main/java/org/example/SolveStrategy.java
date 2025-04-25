@@ -9,7 +9,8 @@ public enum SolveStrategy {
     ASTAR("AStar"),
     DIJKSTRA("Dijkstra"),
     BLOCKNDPATH("BlockNdPath"),
-    BFS("Bfs");
+    BFS("Bfs"),
+    IDASTAR("IDAStar");
 
     private String strategy = null;
     

@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <queue>
+#include <stack>
 #include <iostream>
 #include <string>
 
@@ -60,6 +61,8 @@ private:
     // Used for checking backtracking
     Bit ShouldBacktrackPosition(int row, int col);
 
+    double eval(std::pair<int,int> start, double g_n);
+    double euclideanDistance(std::pair<int, int> start);
     void FixMaze();
 
 public:    
@@ -92,6 +95,7 @@ public:
     void Dijkstra();
     void BlockNdPath();
     void BFS();
+    void IDAStar();
 
     void FindPath(std::vector<std::vector<Cell>>& cells, std::pair<int, int> destination);
 

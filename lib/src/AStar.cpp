@@ -62,15 +62,6 @@ void Matrix<T>::FindPath(
 template <class T>
 void Matrix<T>::AStar() {
 
-  auto calculateHeuristic = [&](int& row, int& col) {
-    double minH = std::numeric_limits<double>::infinity();
-    for (const auto& pair : this->goals) {
-      double h = std::hypot(row - pair.first, col - pair.second);
-      minH = std::min(minH, h);
-    }
-    return minH;
-  };
-
   const std::pair<int, int> directions[] = 
   {
     {0,1},
@@ -137,7 +128,7 @@ void Matrix<T>::AStar() {
           }
           else {
             double g = cellDetails[ni][nj].currentCost + 1.0;
-            double h = calculateHeuristic(ni, nj);
+            double h = this->euclideanDistance({ni, nj});
             double f = g + h;
 
             if(cellDetails[ni][nj].totalCost 
