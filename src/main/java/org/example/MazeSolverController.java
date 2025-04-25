@@ -53,7 +53,7 @@ public class MazeSolverController {
         this.maze = maze;
 
         this.solvingSteps = SolverAPI.GetInstance(maze)
-                                     .SolveWith(SolveStrategy.BLOCKNDPATH);
+                                     .SolveWith(SolveStrategy.ASTAR);
         this.step = 0;
     }
 
@@ -238,7 +238,7 @@ public class MazeSolverController {
 
         ToggleGroup algos = new ToggleGroup();
 
-        String[] algorithms = {"A*", "Dijkstra", "BlockNPath", "DFS", "BFS"};
+        String[] algorithms = {"A*", "Dijkstra", "BlockNPath", "BFS", "Development"};
 
         for (String algo : algorithms) {
             ToggleButton button = new ToggleButton(algo);
@@ -254,12 +254,12 @@ public class MazeSolverController {
                 Optional<ButtonType> result = confirmation.showAndWait();
                 if (result.get() == ButtonType.YES) {
                     button.setSelected(true);
-                    //change maze logic here
+                    changeAlgorithms(button.getText());
                 }else{
                     event.consume();
                 }
             });
-            if (algo.equals("A*")) {
+            if (algo.equals("A*")) { //default
                 button.setSelected(true);
             }
             content.getChildren().add(button);
@@ -269,6 +269,34 @@ public class MazeSolverController {
         algoSelector.setFitToWidth(true);
         algoSelector.setContent(content);
 
+    }
+
+    private void changeAlgorithms(String algo){
+        switch(algo){
+            case "A*":
+                this.solvingSteps = SolverAPI.GetInstance(maze).SolveWith(SolveStrategy.ASTAR);
+                break;
+            case "Dijkstra":
+                this.solvingSteps = SolverAPI.GetInstance(maze).SolveWith(SolveStrategy.DIJKSTRA);
+                break;
+            case "BlockNPath":
+                this.solvingSteps = SolverAPI.GetInstance(maze).SolveWith(SolveStrategy.BLOCKNDPATH);
+                break;
+            case "BFS":
+                this.solvingSteps = SolverAPI.GetInstance(maze).SolveWith(SolveStrategy.BFS);
+                break;
+            case "Development":
+                Alert dev = new Alert(Alert.AlertType.INFORMATION);
+                dev.setTitle("Development");
+                dev.setHeaderText(null);
+                dev.setContentText("Algorithm is in development, switching to A*");
+                dev.showAndWait();
+                this.solvingSteps = SolverAPI.GetInstance(maze).SolveWith(SolveStrategy.ASTAR);
+                break;
+            default:
+                break;
+        }
+        resetBtn.fire();
     }
 
     private Maze getMazeArray(){
