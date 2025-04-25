@@ -146,6 +146,9 @@ void Matrix<T>::SolveWith(const std::string& str) {
   } else if (str == "Bfs") {
     logger.Debug("Using BFS");
     this->BFS(); 
+  } else if (str == "IDAStar") {
+    logger.Debug("Using IDAStar");
+    this->IDAStar();
   } else {
     logger.Debug("using custom BlockNdPath");
     this->BlockNdPath();
