@@ -238,7 +238,7 @@ public class MazeSolverController {
 
         ToggleGroup algos = new ToggleGroup();
 
-        String[] algorithms = {"A*", "Dijkstra", "BlockNPath", "BFS", "Development"};
+        String[] algorithms = {"A*", "Dijkstra", "BlockNPath", "BFS", "IDAStar"};
 
         for (String algo : algorithms) {
             ToggleButton button = new ToggleButton(algo);
@@ -285,13 +285,8 @@ public class MazeSolverController {
             case "BFS":
                 this.solvingSteps = SolverAPI.GetInstance(maze).SolveWith(SolveStrategy.BFS);
                 break;
-            case "Development":
-                Alert dev = new Alert(Alert.AlertType.INFORMATION);
-                dev.setTitle("Development");
-                dev.setHeaderText(null);
-                dev.setContentText("Algorithm is in development, switching to A*");
-                dev.showAndWait();
-                this.solvingSteps = SolverAPI.GetInstance(maze).SolveWith(SolveStrategy.ASTAR);
+            case "IDAStar":
+                this.solvingSteps = SolverAPI.GetInstance(maze).SolveWith(SolveStrategy.IDASTAR);
                 break;
             default:
                 break;
