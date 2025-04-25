@@ -49,6 +49,16 @@ Bit Matrix<T>::ShouldBacktrackPosition(int row, int col) {
 }
 
 
+/*
+        {0,1},
+        {0,-1},
+        {1,0},
+        {-1,0},
+        {1,1},
+        {1,-1},
+        {-1,1},
+        {-1,-1}
+*/
 
 template <class T>
 void Matrix<T>::BlockNdPath() {
@@ -77,6 +87,10 @@ void Matrix<T>::BlockNdPath() {
     && this->IsInvalid(xP, yP - 1)
     && this->IsInvalid(xP + 1, yP)
     && this->IsInvalid(xP - 1, yP)
+    && this->IsInvalid(xP - 1, yP - 1)
+    && this->IsInvalid(xP - 1, yP + 1)
+    && this->IsInvalid(xP + 1, yP - 1)
+    && this->IsInvalid(xP + 1, yP + 1)
     ) {
         logger.Debug("Maze is impossible from BlockNdPath gg");
         this->Clear();
@@ -85,7 +99,15 @@ void Matrix<T>::BlockNdPath() {
 
 
     std::vector<std::pair<int, int>> directions = {
-        {0, -1}, {0, 1}, {-1, 0}, {1, 0}
+        {0,1},
+        {0,-1},
+        {1,0},
+        {-1,0},
+
+        {1,1},
+        {1,-1},
+        {-1,1},
+        {-1,-1}
     };
     
     for (auto& dir : directions) {
@@ -108,6 +130,10 @@ void Matrix<T>::BlockNdPath() {
         this->ShouldBacktrackPosition(xP - 1, yP) &&
         this->ShouldBacktrackPosition(xP, yP + 1) &&
         this->ShouldBacktrackPosition(xP, yP - 1) &&
+        this->ShouldBacktrackPosition(xP + 1, yP + 1) &&
+        this->ShouldBacktrackPosition(xP + 1, yP - 1) &&
+        this->ShouldBacktrackPosition(xP - 1, yP + 1) &&
+        this->ShouldBacktrackPosition(xP - 1, yP - 1) &&
         !this->isDone()) {
     
         this->matrix[xP][yP] = this->wallValue;
@@ -122,6 +148,9 @@ void Matrix<T>::BlockNdPath() {
 
 template <class T>
 void Matrix<T>::FixMaze() {
+    if(this->path.empty()) {
+        return;
+    }
 
     for (const auto& dir : this->path) {
         if (dir == this->startingPosition) {

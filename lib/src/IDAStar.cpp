@@ -65,10 +65,14 @@ void Matrix<T>::IDAStar() {
     */
     using Position = std::pair<int, int>;
     const Position directions[] {
-        {1, 0},
-        {-1, 0},
-        {0, 1},
-        {0, -1}
+        {0,1},
+        {0,-1},
+        {1,0},
+        {-1,0},
+        {1,1},
+        {1,-1},
+        {-1,1},
+        {-1,-1}
     };
     
     // this is equal to the f_n since g_n would be 0 right now
