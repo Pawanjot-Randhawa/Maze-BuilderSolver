@@ -128,7 +128,7 @@ void Matrix<T>::AStar() {
           }
           else {
             double g = cellDetails[ni][nj].currentCost + 1.0;
-            double h = this->euclideanDistance(ni, nj);
+            double h = this->euclideanDistance({ni, nj});
             double f = g + h;
 
             if(cellDetails[ni][nj].totalCost 
