@@ -60,6 +60,8 @@ private:
     // Used for checking backtracking
     Bit ShouldBacktrackPosition(int row, int col);
 
+    double eval(std::pair<int,int> start, double g_n);
+    double euclideanDistance(std::pair<int, int> start);
     void FixMaze();
 
 public:    
