@@ -94,6 +94,7 @@ public:
     void Dijkstra();
     void BlockNdPath();
     void BFS();
+    void IDAStar();
 
     void FindPath(std::vector<std::vector<Cell>>& cells, std::pair<int, int> destination);
 
