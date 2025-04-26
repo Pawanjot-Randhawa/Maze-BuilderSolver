@@ -59,8 +59,8 @@ public class MenuBarBuilder {
         MenuItem a = new MenuItem("A*");
         MenuItem b = new MenuItem("Dijkstra");
         MenuItem c = new MenuItem("BlockNPath");
-        MenuItem d = new MenuItem("DFS");
-        MenuItem e = new MenuItem("BFS");
+        MenuItem d = new MenuItem("BFS");
+        MenuItem e = new MenuItem("IDAStar");
 
         algos.getItems().addAll(a, b, c, d, e);
 
@@ -78,13 +78,13 @@ public class MenuBarBuilder {
                         info.setContentText("Expands outward based on lowest total cost; finds shortest path in weighted graphs without a heuristic.");
                         break;
                     case "BlockNPath":
-                        info.setContentText("Recursively explores paths in a predefined order. Upon reaching a dead end, the algorithm marks it as blocked and restarts, gradually refining the solution.");
-                        break;
-                    case "DFS":
-                        info.setContentText("IDK bro");
+                        info.setContentText("Recursively explores paths in a predefined order; Upon reaching a dead end, the algorithm marks it as blocked and restarts, gradually refining the solution.");
                         break;
                     case "BFS":
-                        info.setContentText("IDK bro.");
+                        info.setContentText("Explores the maze layer by layer, ensuring the shortest path is found in unweighted graphs.");
+                        break;
+                    case "IDAStar":
+                        info.setContentText("Combines A* with depth-first search, using cost limits to find the shortest path efficiently with low memory use.");
                         break;
                     default:
                         info.setContentText("Error, this should not happen");
