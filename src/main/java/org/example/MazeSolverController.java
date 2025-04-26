@@ -124,8 +124,8 @@ public class MazeSolverController {
             updatePlaybackButtons();
         });
 
-        playSpeed.getItems().addAll("0.5x", "1x", "1.5x", "2x", "2.5x", "3x", "5x");
-        playSpeed.setValue("1.5x");
+        playSpeed.getItems().addAll("1x", "2x", "3x", "4x", "5x");
+        playSpeed.setValue("1x");
         solvingAnimation.setRate(1.5);
         playSpeed.setEditable(false);
         playSpeed.setOnAction(event -> {
