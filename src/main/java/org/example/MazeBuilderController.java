@@ -108,8 +108,14 @@ import javafx.scene.shape.Rectangle;
 
            widthInput.getItems().addAll(5, 6);
            widthInput.setValue(5);
+           widthInput.setOnAction(event -> {
+               createMaze();
+           });
            heightInput.getItems().addAll(5, 6);
            heightInput.setValue(5);
+           heightInput.setOnAction(event -> {
+               createMaze();
+           });
            if(isNewMaze){
                createMaze();
            }else{
