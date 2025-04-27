@@ -133,6 +133,14 @@ public class MazeSolverController {
 
         });
 
+        skipBtn.setOnAction(event -> {
+            for (int i = step; i < solvingSteps.size(); i++) {
+                playStep();
+                step += 1;
+            }
+            updatePlaybackButtons();
+        });
+
 
         resetBtn.setOnAction(event -> {
             solvingAnimation.stop();
@@ -154,10 +162,12 @@ public class MazeSolverController {
         if(step>=solvingSteps.size()){
             playPause.setDisable(true);
             nextStep.setDisable(true);
+            skipBtn.setDisable(true);
         }else{
             playPause.setDisable(false);
             playPause.setSelected(false);
             nextStep.setDisable(false);
+            skipBtn.setDisable(false);
         }
     }
 
