@@ -9,8 +9,16 @@
 .title-image{
     -fx-opacity: 1;
 }
+.button{
+    
+}
 .new-maze-button{
     -fx-background-color: #a6efff;
+    -fx-focus-color: transparent; /* Removes the glowing border color */
+
+}
+.new-maze-button:hover{
+    -fx-background-color: #a6efAf;
     -fx-focus-color: transparent; /* Removes the glowing border color */
 
 }
