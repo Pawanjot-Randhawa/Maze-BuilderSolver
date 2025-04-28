@@ -221,7 +221,7 @@ import javafx.scene.shape.Rectangle;
            }
        }
 
-       private Maze getMaze(){
+       public Maze getMaze(){
            int[][] mazeArray = new int[height][width];
 
            for (Node cell : grid.getChildren()) {

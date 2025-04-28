@@ -1,5 +1,8 @@
 package org.example;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -66,6 +69,34 @@ public class Database {
         } catch(SQLException e) {
 
         }
+    }
+
+    public void saveMaze(String name, int[][] mazeArray) {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonMaze = "";
+
+        try {
+            jsonMaze = mapper.writeValueAsString(mazeArray);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        String sql = "INSERT INTO mazes (name, maze_data, created_at) VALUES (?, ?, datetime('now'))";
+
+        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
+            System.out.println("Connection made for inserting");
+
+            var pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, name);
+            pstmt.setString(2, jsonMaze);
+            pstmt.executeUpdate();
+
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public void InsertToDbExample() {

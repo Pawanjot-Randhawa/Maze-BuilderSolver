@@ -1,9 +1,8 @@
 package org.example;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
+
+import java.util.Optional;
 
 public class MenuBarBuilder {
     private ViewFactory viewFactory;
@@ -30,6 +29,23 @@ public class MenuBarBuilder {
     }
 
     public MenuBar buildForBuilder(MazeBuilderController controller) {
+        save.setOnAction(e -> {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Save Maze");
+            dialog.setHeaderText("Save Maze");
+            dialog.setContentText("Enter Maze Name:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                Database.GetInstance().saveMaze(result.get(), controller.getMaze().getMazeArray());
+                //show confirmation
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Maze Saved");
+                alert.setHeaderText(null);
+                alert.setContentText("Your maze was saved successfully!");
+                alert.showAndWait();
+            }
+        });
+
         Menu edit = new Menu("Edit");
         MenuItem Clear = new MenuItem("Clear");
         Clear.setOnAction(e -> {
