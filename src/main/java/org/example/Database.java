@@ -48,6 +48,26 @@ public class Database {
         }
     }
 
+    public void createMazeTable() {
+
+        var sql = "CREATE TABLE IF NOT EXISTS mazes ("
+                + "	maze_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "	name text NOT NULL,"
+                + "	maze_data text NOT NULL,"
+                + " created_at text"
+                + ");";
+
+        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
+            System.out.println("Connection made");
+            var stmt = conn.createStatement();
+            stmt.execute(sql);
+            System.out.println("Table created");
+
+        } catch(SQLException e) {
+
+        }
+    }
+
     public void InsertToDbExample() {
         var names = new String[] {"Raw Materials", "Semifinished Goods", "Finished Goods"};
         var capacities = new int[] {3000,4000,5000};    

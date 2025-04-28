@@ -42,6 +42,8 @@ public class JavaFX extends Application {
         
         // Should be Singleton
         Database db = Database.GetInstance();
+
+        db.createMazeTable();
         
         launch();
     }
