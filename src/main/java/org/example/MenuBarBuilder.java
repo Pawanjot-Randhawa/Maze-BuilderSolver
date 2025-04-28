@@ -9,30 +9,27 @@ public class MenuBarBuilder {
     private ViewFactory viewFactory;
     private MenuBar menuBar;
     private Menu file;
+    private MenuItem save;
+    private MenuItem open;
+    private MenuItem exit;
 
     public MenuBarBuilder(ViewFactory viewFactory) {
         this.viewFactory = viewFactory;
         this.menuBar = new MenuBar();
         this.file = new Menu("File");
-
-    }
-
-    //default items both bars will have
-    public void buildDefaultItems(){
-        MenuItem algorithm = new MenuItem("Load");
-        MenuItem save = new MenuItem("Save");
-        MenuItem exit = new MenuItem("Exit");
+        this.open = new MenuItem("Open");
+        this.save = new MenuItem("Save");
+        this.exit = new MenuItem("Exit");
         exit.setOnAction(e -> {
             viewFactory.showMainMenuView();
         });
 
-        file.getItems().addAll(algorithm, save, exit);
+        file.getItems().addAll(open, save, exit);
+
 
     }
 
     public MenuBar buildForBuilder(MazeBuilderController controller) {
-        buildDefaultItems();
-
         Menu edit = new Menu("Edit");
         MenuItem Clear = new MenuItem("Clear");
         Clear.setOnAction(e -> {
@@ -53,8 +50,6 @@ public class MenuBarBuilder {
     }
 
     public MenuBar buildForSolver() {
-        buildDefaultItems();
-
         Menu algos = new Menu("Algorithms");
         MenuItem a = new MenuItem("A*");
         MenuItem b = new MenuItem("Dijkstra");
