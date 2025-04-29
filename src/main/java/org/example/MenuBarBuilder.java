@@ -36,13 +36,22 @@ public class MenuBarBuilder {
             dialog.setContentText("Enter Maze Name:");
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
-                Database.GetInstance().saveMaze(result.get(), controller.getMaze().getMazeArray());
-                //show confirmation
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Maze Saved");
-                alert.setHeaderText(null);
-                alert.setContentText("Your maze was saved successfully!");
-                alert.showAndWait();
+                if(Database.GetInstance().saveMaze(result.get(), controller.getMaze().getMazeArray())){
+                    //show confirmation
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Maze Saved");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Your maze was saved successfully!");
+                    alert.showAndWait();
+                }else{
+                    //show duplicate name error
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("A maze with this name already exists!");
+                    alert.showAndWait();
+                }
+
             }
         });
 

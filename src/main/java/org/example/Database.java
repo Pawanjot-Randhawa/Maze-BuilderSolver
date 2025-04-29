@@ -74,7 +74,7 @@ public class Database {
         }
     }
 
-    public void saveMaze(String name, int[][] mazeArray) {
+    public boolean saveMaze(String name, int[][] mazeArray) {
         ObjectMapper mapper = new ObjectMapper();
         String jsonMaze = "";
 
@@ -97,8 +97,9 @@ public class Database {
 
         }catch (SQLException e) {
             e.printStackTrace();
-            //handle mis-input here
+            return false;
         }
+        return true;
 
 
     }
