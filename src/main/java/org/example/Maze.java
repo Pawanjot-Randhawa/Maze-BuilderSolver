@@ -4,6 +4,8 @@ public class Maze {
     private int[][] mazeArray;
     private int mazeWidth;
     private int mazeHeight;
+    private String name;
+    private String dateMade;
 
     public Maze(int[][] mazeArray, int mazeWidth, int mazeHeight) {
         this.mazeArray = mazeArray;
@@ -27,7 +29,28 @@ public class Maze {
         this.mazeWidth = mazeWidth;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) { this.name = name; }
+
+    public String getDateMade() {
+        return dateMade;
+    }
+
+    public void setDateMade(String dateMade) {this.dateMade = dateMade; }
+
     public int[][] getMazeArray() {
         return mazeArray;
+    }
+
+    public void printMazeArray(){
+        for (int i = 0; i < mazeArray.length; i++) {
+            for (int j = 0; j < mazeArray[0].length; j++) {
+                System.out.print(mazeArray[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
