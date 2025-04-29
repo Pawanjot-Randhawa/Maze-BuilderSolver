@@ -4,6 +4,7 @@ public class Maze {
     private int[][] mazeArray;
     private int mazeWidth;
     private int mazeHeight;
+    private int mazeID;
     private String name;
     private String dateMade;
 
@@ -28,6 +29,12 @@ public class Maze {
     public void setMazeWidth(int mazeWidth) {
         this.mazeWidth = mazeWidth;
     }
+
+    public int getMazeID() {
+        return mazeID;
+    }
+
+    public void setMazeID(int mazeID) { this.mazeID = mazeID; }
 
     public String getName() {
         return name;

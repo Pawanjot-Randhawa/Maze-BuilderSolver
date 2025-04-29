@@ -1,6 +1,7 @@
 package org.example;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.DriverManager;
@@ -57,7 +58,7 @@ public class Database {
 
         var sql = "CREATE TABLE IF NOT EXISTS mazes ("
                 + "	maze_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "	name text NOT NULL,"
+                + "	name text NOT NULL UNIQUE,"
                 + "	maze_data text NOT NULL,"
                 + " created_at text"
                 + ");";
@@ -96,6 +97,7 @@ public class Database {
 
         }catch (SQLException e) {
             e.printStackTrace();
+            //handle mis-input here
         }
 
 
@@ -120,6 +122,42 @@ public class Database {
             }
         }catch (SQLException e){
             e.printStackTrace();
+        }
+        return mazes;
+    }
+
+    public List<Maze> getAllMazes(){
+        ObjectMapper mapper = new ObjectMapper();
+        List<Maze> mazes = new ArrayList<>();
+
+        var sql = "SELECT * FROM mazes;";
+
+
+        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")){
+            System.out.println("Connection made for getting");
+
+            var stmt = conn.createStatement();
+
+            var rs = stmt.executeQuery(sql);
+
+            while(rs.next()) {
+                int mazeId = rs.getInt("maze_id");
+                String mazeName = rs.getString("name");
+                String mazeDate = rs.getString("created_at");
+                String JsonMazeData = rs.getString("maze_data");
+                int[][] mazeData = mapper.readValue(JsonMazeData, int[][].class);
+
+                Maze maze = new Maze(mazeData, mazeData.length, mazeData[0].length);
+                maze.setMazeID(mazeId);
+                maze.setName(mazeName);
+                maze.setDateMade(mazeDate);
+                mazes.add(maze);
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
         return mazes;
     }

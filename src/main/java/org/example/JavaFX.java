@@ -51,6 +51,11 @@ public class JavaFX extends Application {
         for (var maze : mazes) {
             System.out.println(maze);
         }
+
+        List<Maze> zeMazes = db.getAllMazes();
+        for (var zeMaze : zeMazes) {
+            System.out.println(zeMaze.getMazeID() + ": " + zeMaze.getName());
+        }
         
         launch();
     }
