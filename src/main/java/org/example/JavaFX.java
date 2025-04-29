@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.IOException;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -44,6 +45,12 @@ public class JavaFX extends Application {
         Database db = Database.GetInstance();
 
         db.createMazeTable();
+
+        //testing the mazes
+        List<Integer> mazes = db.getMazes();
+        for (var maze : mazes) {
+            System.out.println(maze);
+        }
         
         launch();
     }

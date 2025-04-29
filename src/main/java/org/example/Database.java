@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
 
@@ -97,6 +99,29 @@ public class Database {
         }
 
 
+    }
+
+    public List<Integer> getMazes(){
+        List<Integer> mazes = new ArrayList<>();
+        var sql = "SELECT * FROM mazes;";
+
+
+        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")){
+            System.out.println("Connection made for getting");
+
+            var stmt = conn.createStatement();
+
+            var rs = stmt.executeQuery(sql);
+
+            while(rs.next()) {
+                int mazeId = rs.getInt("maze_id");
+                mazes.add(mazeId);
+
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return mazes;
     }
 
     public void InsertToDbExample() {
