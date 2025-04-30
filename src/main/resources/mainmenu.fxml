@@ -53,6 +53,6 @@
             <Insets left="20.0" />
          </padding>
       </HBox>
-      <ScrollPane layoutX="179.0" layoutY="297.0" prefHeight="550.0" prefWidth="1050.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" />
+      <ScrollPane fx:id="mazesPane" layoutX="179.0" layoutY="297.0" prefHeight="550.0" prefWidth="1050.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" />
    </children>
 </AnchorPane>
