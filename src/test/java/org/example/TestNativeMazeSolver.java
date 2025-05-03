@@ -217,6 +217,112 @@ public class TestNativeMazeSolver {
             });
     }
 
+    @Test
+    public void Test_BlockNdPath_Complex_Maze_Correct_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.BLOCKNDPATH);
+
+        final int[][] expectedSteps = {
+            {0,4},
+            {0,3},
+            {0,2},
+            {0,1},
+            {0,0},
+            {1,0},
+            {2,1},
+            {2,2},
+            {2,3},
+            {2,4},
+            {2,5},
+            {1,4},
+            {0,4},
+            {0,3},
+            {0,2},
+            {0,1},
+            {0,0},
+            {1,0},
+            {2,1},
+            {2,2},
+            {2,3},
+            {2,4},
+            {2,5},
+            {0,4},
+            {0,3},
+            {0,2},
+            {0,1},
+            {0,0},
+            {1,0},
+            {2,1},
+            {2,2},
+            {2,3},
+            {2,4},
+            {3,3},
+            {3,2},
+            {4,3},
+            {5,4},
+            {4,5},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(true, isMatch);
+            });
+    }
+
+    @Test
+    public void Test_BlockNdPath_Complex_Maze_Wrong_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.BLOCKNDPATH);
+
+        final int[][] expectedSteps = {
+            {1,4},
+            {2,3},
+            {3,2},
+            {4,1},
+            {5,0},
+            {2,0},
+            {3,1},
+            {4,2},
+            {5,3},
+            {1,4},
+            {3,5},
+            {6,4},
+            {5,4},
+            {0,5},
+            {0,7},
+            {0,8},
+            {0,2},
+            {1,2},
+            {2,4},
+            {2,4},
+            {3,3},
+            {5,5},
+            {1,1},
+            {4,4},
+            {0,-1},
+            {0,-1},
+            {0,-1},
+            {0,-1},
+            {1,-1},
+            {2,-1},
+            {2,-1},
+            {2,-1},
+            {2,-1},
+            {3,-1},
+            {3,-1},
+            {4,-1},
+            {5,-1},
+            {4,-1},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(false, isMatch);
+            });
+    }
+
 
 
 
