@@ -52,6 +52,10 @@ public class Maze {
         return mazeArray;
     }
 
+    public void setMazeArray(int[][] mazeArray) {
+        this.mazeArray = mazeArray;
+    }
+
     public void printMazeArray(){
         for (int i = 0; i < mazeArray.length; i++) {
             for (int j = 0; j < mazeArray[0].length; j++) {
