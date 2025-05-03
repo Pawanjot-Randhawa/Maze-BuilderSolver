@@ -11,6 +11,7 @@
 
    public class MainMenuController {
        private final ViewFactory viewFactory;
+       private final ToggleGroup mazeOptions = new ToggleGroup();
 
        public MainMenuController(ViewFactory viewFactory) {
            this.viewFactory = viewFactory; // Pass this into the controller
@@ -29,12 +30,17 @@
                viewFactory.showMazeBuilderView(null);
            });
            openMazeBtn.setOnAction(event -> {
-               Alert alert = new Alert(Alert.AlertType.INFORMATION);
-               alert.setTitle("Access Denied");
-               alert.setHeaderText(null);
-               alert.setContentText("Feature Is In Development.");
-               alert.showAndWait();
-
+               Toggle selectedToggle = mazeOptions.getSelectedToggle();
+               if (selectedToggle == null) {
+                   Alert alert = new Alert(Alert.AlertType.WARNING);
+                   alert.setTitle("No Maze Selected");
+                   alert.setHeaderText(null);
+                   alert.setContentText("Please select a maze to open.");
+                   alert.showAndWait();
+               }else{
+                   Maze selectedMaze = (Maze) selectedToggle.getUserData();
+                   viewFactory.showMazeBuilderView(selectedMaze);
+               }
            });
            populateMazeScrollPane();
 
@@ -43,8 +49,6 @@
        private void populateMazeScrollPane() {
            VBox content = new VBox();
            content.setFillWidth(true);
-
-           ToggleGroup mazeOptions = new ToggleGroup();
            System.out.println(Database.GetInstance().getMazes().size() + " Mazes loaded");
 
            for (Maze maze: Database.GetInstance().getMazes()){
@@ -55,6 +59,7 @@
                Label name = new Label(maze.getName());
                Label date = new Label(maze.getDateMade());
                Label size = new Label(maze.getMazeWidth() + "x" + maze.getMazeHeight());
+               mazeButton.setUserData(maze);
 
                Region spacer1 = new Region();
                Region spacer2 = new Region();
