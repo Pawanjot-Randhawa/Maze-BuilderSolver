@@ -11,15 +11,8 @@ import java.util.List;
 
 public class Database {
 
-    // Needs:
-    //
-    //  Read    Maze
-    //      - single
-    //      - all
-    //  Write   Maze
-
-
     private static volatile Database helper;
+    private final String databaseUrl = "jdbc:sqlite:sample.db";
 
     public static Database GetInstance() {
         Database localRef = helper;
@@ -35,36 +28,15 @@ public class Database {
         return localRef;
     }
 
-    public void CreateDBExample() {
-
-        var sql = "CREATE TABLE IF NOT EXISTS warehouses ("
-        + "	id INTEGER PRIMARY KEY,"
-        + "	name text NOT NULL,"
-        + "	capacity REAL"
-        + ");";
-
-        // 
-        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
-            System.out.println("Connection made");
-            var stmt = conn.createStatement();
-            stmt.execute(sql);
-
-        } catch(SQLException e) {
-            
-        }
-    }
-
     public void createMazeTable() {
-
-        var sql = "CREATE TABLE IF NOT EXISTS mazes ("
+        String sql = "CREATE TABLE IF NOT EXISTS mazes ("
                 + "	maze_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "	name text NOT NULL UNIQUE,"
                 + "	maze_data text NOT NULL,"
                 + " created_at text"
                 + ");";
 
-        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
-            System.out.println("Connection made");
+        try(var conn = DriverManager.getConnection(databaseUrl)) {
             var stmt = conn.createStatement();
             stmt.execute(sql);
             System.out.println("Table created");
@@ -86,55 +58,29 @@ public class Database {
 
         String sql = "INSERT INTO mazes (name, maze_data, created_at) VALUES (?, ?, datetime('now'))";
 
-        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
-            System.out.println("Connection made for inserting");
+        try(var conn = DriverManager.getConnection(databaseUrl)) {
+            System.out.println("Connection made for saving");
 
             var pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, name);
             pstmt.setString(2, jsonMaze);
             pstmt.executeUpdate();
 
-
         }catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
         return true;
-
-
-    }
-
-    public List<Integer> getMazeIDs(){
-        List<Integer> mazes = new ArrayList<>();
-        var sql = "SELECT * FROM mazes;";
-
-
-        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")){
-            System.out.println("Connection made for getting");
-
-            var stmt = conn.createStatement();
-
-            var rs = stmt.executeQuery(sql);
-
-            while(rs.next()) {
-                int mazeId = rs.getInt("maze_id");
-                mazes.add(mazeId);
-
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return mazes;
     }
 
     public List<Maze> getMazes(){
         ObjectMapper mapper = new ObjectMapper();
         List<Maze> mazes = new ArrayList<>();
 
-        var sql = "SELECT * FROM mazes;";
+        String sql = "SELECT * FROM mazes;";
 
 
-        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")){
+        try(var conn = DriverManager.getConnection(databaseUrl)){
             System.out.println("Connection made for getting");
 
             var stmt = conn.createStatement();
@@ -161,46 +107,5 @@ public class Database {
             throw new RuntimeException(e);
         }
         return mazes;
-    }
-
-    public void InsertToDbExample() {
-        var names = new String[] {"Raw Materials", "Semifinished Goods", "Finished Goods"};
-        var capacities = new int[] {3000,4000,5000};    
-
-        String sql2 = "INSERT INTO warehouses(name,capacity) VALUES(?,?)";
-        
-        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
-            System.out.println("Connection made");
-            var pstmt = conn.prepareStatement(sql2);
-
-            for(int i = 0; i < 3; i++){
-                pstmt.setString(1, names[i]);
-                pstmt.setDouble(2, capacities[i]);
-                pstmt.executeUpdate();
-            }
-        } catch(SQLException e) {
-            
-        }
-    }
-
-    public void SelectAllExample() {
-        var sql3 = "SELECT id, name, capacity FROM warehouses";
-        
-        try(var conn = DriverManager.getConnection("jdbc:sqlite:sample.db")) {
-            System.out.println("Connection made");
-            var stmt = conn.createStatement();
-
-            var rs = stmt.executeQuery(sql3);
-            while (rs.next()) {
-                System.out.printf("%-5s%-25s%-10s%n",
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getDouble("capacity")
-                );
-            }
-
-        } catch(SQLException e) {
-            
-        }
     }
 }
