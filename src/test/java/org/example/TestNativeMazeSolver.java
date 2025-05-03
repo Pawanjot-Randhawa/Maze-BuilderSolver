@@ -109,6 +109,52 @@ public class TestNativeMazeSolver {
             });
     }
 
+    @Test
+    public void Test_AStar_Complex_Maze_Correct_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.ASTAR);
+
+        final int[][] expectedSteps = {
+            {0,4},
+            {0,3},
+            {1,2},
+            {2,3},
+            {3,3},
+            {3,2},
+            {4,1},
+            {4,0},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(true, isMatch);
+            });
+    }
+
+    @Test
+    public void Test_AStar_Complex_Maze_Wrong_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.ASTAR);
+
+        final int[][] expectedSteps = {
+            {4,0},
+            {3,0},
+            {2,1},
+            {2,2},
+            {3,1},
+            {2,3},
+            {4,0},
+            {2,0},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(false, isMatch);
+            });
+    }
+
 
 
 
