@@ -162,6 +162,48 @@ public class TestNativeMazeSolver {
             });
     }
 
+    @Test
+    public void Test_Dijkstra_Complex_Maze_Correct_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.DIJKSTRA);
+
+        final int[][] expectedSteps = {
+            {0,4},
+            {1,4},
+            {2,3},
+            {3,2},
+            {4,1},
+            {4,0},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(true, isMatch);
+            });
+    }
+
+    @Test
+    public void Test_Dijkstra_Complex_Maze_Wrong_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.DIJKSTRA);
+
+        final int[][] expectedSteps = {
+            {3,4},
+            {2,5},
+            {1,2},
+            {2,3},
+            {1,4},
+            {0,4},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(false, isMatch);
+            });
+    }
+
 
 
 
