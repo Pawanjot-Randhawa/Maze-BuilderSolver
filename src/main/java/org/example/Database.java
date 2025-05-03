@@ -67,10 +67,23 @@ public class Database {
             pstmt.executeUpdate();
 
         }catch (SQLException e) {
-            e.printStackTrace();
             return false;
         }
         return true;
+    }
+
+    public void deleteMaze(int mazeID) {
+        String sql = "DELETE FROM mazes WHERE maze_id = ?";
+
+        try(var conn = DriverManager.getConnection(databaseUrl)){
+            System.out.println("Connection made for deleting");
+            var pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, mazeID);
+            pstmt.executeUpdate();
+            System.out.println("Table deleted");
+        }catch (SQLException e) {
+            System.out.println("Table deleting failed: " + e.getMessage());
+        }
     }
 
     public List<Maze> getMazes(){
@@ -102,7 +115,7 @@ public class Database {
 
             }
         }catch (SQLException e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

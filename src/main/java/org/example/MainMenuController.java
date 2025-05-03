@@ -84,10 +84,9 @@
                    alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
                    alert.showAndWait();
                    if (alert.getResult() == ButtonType.YES) {
-                       //add deletion logic for database
+                       Database.GetInstance().deleteMaze(maze.getMazeID()); //remove from database
+                       content.getChildren().remove(mazeButton); //remove from ui
 
-                       content.getChildren().remove(mazeButton);
-                       //
                        Alert success = new Alert(Alert.AlertType.INFORMATION);
                        success.setTitle("Maze Deleted");
                        success.setHeaderText(null);
