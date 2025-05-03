@@ -48,9 +48,6 @@
            System.out.println(Database.GetInstance().getMazes().size() + " Mazes loaded");
 
            for (Maze maze: Database.GetInstance().getMazes()){
-               ToggleButton button = new ToggleButton(maze.getName());
-               button.setMinHeight(100);
-               button.setMaxWidth(Double.MAX_VALUE);
 
                ToggleButton mazeButton = new ToggleButton();
                HBox buttonContents = new HBox();
@@ -65,9 +62,45 @@
                HBox.setHgrow(spacer1, Priority.ALWAYS);
                HBox.setHgrow(spacer2, Priority.ALWAYS);
 
+               Button deleteButton = new Button("🗑");
+               deleteButton.setPrefHeight(50);
+               deleteButton.setPrefWidth(50);
+               deleteButton.setVisible(false);
+               deleteButton.setFocusTraversable(false);
+
+               //uncomment to make it show only on select
+               //deleteButton.visibleProperty().bind(mazeButton.selectedProperty());
+
+               //uncomment for both
+               //deleteButton.visibleProperty().bind(mazeButton.hoverProperty().or(mazeButton.selectedProperty()));
+
+               //this makes it show only on hover
+               deleteButton.visibleProperty().bind(mazeButton.hoverProperty());
+               deleteButton.setOnAction(event -> {
+                   Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                   alert.setTitle("Confirmation");
+                   alert.setHeaderText(null);
+                   alert.setContentText("Are you sure you want to delete this maze?");
+                   alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                   alert.showAndWait();
+                   if (alert.getResult() == ButtonType.YES) {
+                       //add deletion logic for database
+
+                       content.getChildren().remove(mazeButton);
+                       //
+                       Alert success = new Alert(Alert.AlertType.INFORMATION);
+                       success.setTitle("Maze Deleted");
+                       success.setHeaderText(null);
+                       success.setContentText("Your maze was deleted successfully.");
+                       success.showAndWait();
+                   }
+
+               });
+
                buttonContents.setAlignment(Pos.CENTER);
-               buttonContents.setPadding(new Insets(30,10,30,10));
-               buttonContents.getChildren().addAll(name, spacer1, size, spacer2, date);
+               buttonContents.setPadding(new Insets(25,10,25,10));
+               buttonContents.setSpacing(20);
+               buttonContents.getChildren().addAll(name, spacer1, size, spacer2, date, deleteButton);
 
                mazeButton.setMinHeight(100);
                mazeButton.setMaxWidth(Double.MAX_VALUE);
