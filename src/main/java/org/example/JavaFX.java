@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 
 public class JavaFX extends Application {
 
-    public static List<Maze> Mazes;
-
     @Override
     public void start(Stage stage) throws IOException {
         ViewFactory viewFactory = new ViewFactory(stage);
@@ -22,14 +20,9 @@ public class JavaFX extends Application {
 
         db.createMazeTable();
 
-        //testing the mazes
-        List<Integer> mazes = db.getMazes();
-        for (var maze : mazes) {
-            System.out.println(maze);
-        }
+        //testing the maze database
 
-        Mazes = db.getAllMazes();
-        for (var zeMaze : Mazes) {
+        for (var zeMaze : db.getMazes()) {
             System.out.println(zeMaze.getMazeID() + ": " + zeMaze.getName());
         }
         

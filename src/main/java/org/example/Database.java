@@ -104,7 +104,7 @@ public class Database {
 
     }
 
-    public List<Integer> getMazes(){
+    public List<Integer> getMazeIDs(){
         List<Integer> mazes = new ArrayList<>();
         var sql = "SELECT * FROM mazes;";
 
@@ -127,7 +127,7 @@ public class Database {
         return mazes;
     }
 
-    public List<Maze> getAllMazes(){
+    public List<Maze> getMazes(){
         ObjectMapper mapper = new ObjectMapper();
         List<Maze> mazes = new ArrayList<>();
 
@@ -148,7 +148,7 @@ public class Database {
                 String JsonMazeData = rs.getString("maze_data");
                 int[][] mazeData = mapper.readValue(JsonMazeData, int[][].class);
 
-                Maze maze = new Maze(mazeData, mazeData.length, mazeData[0].length);
+                Maze maze = new Maze(mazeData, mazeData[0].length, mazeData.length);
                 maze.setMazeID(mazeId);
                 maze.setName(mazeName);
                 maze.setDateMade(mazeDate);

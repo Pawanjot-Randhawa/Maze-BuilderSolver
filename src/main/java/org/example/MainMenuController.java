@@ -9,8 +9,6 @@
    import javafx.scene.layout.Region;
    import javafx.scene.layout.VBox;
 
-   import static org.example.JavaFX.Mazes;
-
    public class MainMenuController {
        private final ViewFactory viewFactory;
 
@@ -47,9 +45,9 @@
            content.setFillWidth(true);
 
            ToggleGroup mazeOptions = new ToggleGroup();
-           System.out.println(Mazes.size() + " Mazes loaded");
+           System.out.println(Database.GetInstance().getMazes().size() + " Mazes loaded");
 
-           for (Maze maze: Mazes){
+           for (Maze maze: Database.GetInstance().getMazes()){
                ToggleButton button = new ToggleButton(maze.getName());
                button.setMinHeight(100);
                button.setMaxWidth(Double.MAX_VALUE);
