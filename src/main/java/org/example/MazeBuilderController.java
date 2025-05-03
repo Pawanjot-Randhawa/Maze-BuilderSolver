@@ -238,6 +238,10 @@ import javafx.scene.shape.Rectangle;
                    mazeArray[row][col] = 1;
                }
            }
+           if(this.maze!=null){
+               this.maze.setMazeArray(mazeArray);
+               return this.maze;
+           }
            return new Maze(mazeArray, width, height);
        }
 

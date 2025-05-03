@@ -59,12 +59,11 @@ public class Database {
         String sql = "INSERT INTO mazes (name, maze_data, created_at) VALUES (?, ?, datetime('now'))";
 
         try(var conn = DriverManager.getConnection(databaseUrl)) {
-            System.out.println("Connection made for saving");
-
             var pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, name);
             pstmt.setString(2, jsonMaze);
             pstmt.executeUpdate();
+            System.out.println("Maze Saved");
 
         }catch (SQLException e) {
             return false;
@@ -76,13 +75,35 @@ public class Database {
         String sql = "DELETE FROM mazes WHERE maze_id = ?";
 
         try(var conn = DriverManager.getConnection(databaseUrl)){
-            System.out.println("Connection made for deleting");
             var pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, mazeID);
             pstmt.executeUpdate();
             System.out.println("Table deleted");
         }catch (SQLException e) {
             System.out.println("Table deleting failed: " + e.getMessage());
+        }
+    }
+
+    public void updateMaze(Maze maze) {
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonMaze = "";
+        try {
+            jsonMaze = mapper.writeValueAsString(maze.getMazeArray());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Update with id: " + maze.getMazeID());
+
+        String sql = "UPDATE mazes SET maze_data = ? WHERE maze_id = ?";
+
+        try(var conn = DriverManager.getConnection(databaseUrl)){
+            var pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, jsonMaze);
+            pstmt.setInt(2, maze.getMazeID());
+            pstmt.executeUpdate();
+            System.out.println("Maze updated");
+        }catch (SQLException e) {
+            System.out.println("Maze update failed: " + e.getMessage());
         }
     }
 
@@ -94,7 +115,6 @@ public class Database {
 
 
         try(var conn = DriverManager.getConnection(databaseUrl)){
-            System.out.println("Connection made for getting");
 
             var stmt = conn.createStatement();
 

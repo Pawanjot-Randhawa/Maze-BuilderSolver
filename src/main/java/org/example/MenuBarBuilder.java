@@ -30,29 +30,7 @@ public class MenuBarBuilder {
 
     public MenuBar buildForBuilder(MazeBuilderController controller) {
         save.setOnAction(e -> {
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Save Maze");
-            dialog.setHeaderText("Save Maze");
-            dialog.setContentText("Enter Maze Name:");
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                if(Database.GetInstance().saveMaze(result.get(), controller.getMaze().getMazeArray())){
-                    //show confirmation
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Maze Saved");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Your maze was saved successfully!");
-                    alert.showAndWait();
-                }else{
-                    //show duplicate name error
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText(null);
-                    alert.setContentText("A maze with this name already exists!");
-                    alert.showAndWait();
-                }
-
-            }
+            handleSaveOrUpdate(controller);
         });
 
         Menu edit = new Menu("Edit");
@@ -117,6 +95,48 @@ public class MenuBarBuilder {
         menuBar.getMenus().addAll(file, algos);
         return menuBar;
 
+    }
+
+    private void handleSaveOrUpdate(MazeBuilderController controller){
+        if(controller.getMaze().getMazeID() == 0){//id of 0 means the maze is not from the database and is new
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Save New Maze");
+            dialog.setHeaderText(null);
+            dialog.setContentText("Enter Maze Name:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                if(Database.GetInstance().saveMaze(result.get(), controller.getMaze().getMazeArray())){
+                    //show confirmation
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Maze Saved");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Your maze was saved successfully!");
+                    alert.showAndWait();
+                }else{
+                    //show duplicate name error
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("A maze with this name already exists!");
+                    alert.showAndWait();
+                }
+            }
+        }else{//maze is from the database
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmation.setTitle("Update Maze");
+            confirmation.setHeaderText(null);
+            confirmation.setContentText("This Maze alrady exists under the name " + controller.getMaze().getName() + "\nDo you want to update it?");
+            confirmation.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+            Optional<ButtonType> result = confirmation.showAndWait();
+            if(result.get() == ButtonType.YES){
+                Database.GetInstance().updateMaze(controller.getMaze());
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Maze Updated");
+                alert.setHeaderText(null);
+                alert.setContentText("Your maze was updated successfully!");
+                alert.showAndWait();
+            }
+        }
     }
 
 
