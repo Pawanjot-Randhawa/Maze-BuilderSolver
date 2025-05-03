@@ -279,6 +279,74 @@ public class TestNativeMazeSolver {
             });
     }
 
+    @Test
+    public void Test_BFS_Complex_Maze_Correct_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.BFS);
+
+        final int[][] expectedSteps = {
+            {0,4},
+            {0,3},
+            {1,4},
+            {0,2},
+            {1,2},
+            {2,4},
+            {2,5},
+            {2,3},
+            {0,1},
+            {2,2},
+            {2,1},
+            {3,3},
+            {3,2},
+            {0,0},
+            {1,0},
+            {4,3},
+            {4,1},
+            {5,4},
+            {4,0}
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(true, isMatch);
+            });
+    }
+
+    @Test
+    public void Test_BFS_Complex_Maze_Wrong_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.BFS);
+
+        final int[][] expectedSteps = {
+            {1,4},
+            {1,3},
+            {2,4},
+            {1,2},
+            {2,2},
+            {2,3},
+            {2,4},
+            {2,2},
+            {0,2},
+            {3,3},
+            {3,3},
+            {0,0},
+            {0,1},
+            {23,1},
+            {34,12},
+            {3,0},
+            {2,5},
+            {2,6},
+            {2,11}
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(false, isMatch);
+            });
+    }
+
 
 
 
@@ -397,3 +465,10 @@ public class TestNativeMazeSolver {
 
 
 }
+
+
+// if(isMatch) {
+//     System.out.println("Maze is: " + Arrays.toString(receivedSteps.get(i)));
+//     System.out.println("Expected Maze is: " + Arrays.toString(expectedSteps[i]));
+
+// }
