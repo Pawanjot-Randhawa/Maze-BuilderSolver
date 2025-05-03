@@ -1,6 +1,10 @@
 package org.example;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
@@ -17,6 +21,9 @@ public class MenuBarBuilder {
         this.menuBar = new MenuBar();
         this.file = new Menu("File");
         this.open = new MenuItem("Open");
+        open.setOnAction(event -> {
+            showOpenMazeDialog();
+        });
         this.save = new MenuItem("Save");
         this.exit = new MenuItem("Exit");
         exit.setOnAction(e -> {
@@ -137,6 +144,58 @@ public class MenuBarBuilder {
                 alert.showAndWait();
             }
         }
+    }
+
+    private void showOpenMazeDialog() {
+        Dialog<Maze> dialog = new Dialog<>();
+        dialog.setTitle("Open Maze");
+        dialog.setHeaderText("Select a maze to open");
+
+        ButtonType openButtonType = new ButtonType("Open", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(openButtonType, ButtonType.CANCEL);
+
+        VBox mazeList = new VBox(10);
+        mazeList.setPrefWidth(400);
+        ToggleGroup group = new ToggleGroup();
+
+        for (Maze maze : Database.GetInstance().getMazes()) {
+            ToggleButton button = new ToggleButton();
+            button.setToggleGroup(group);
+            button.setUserData(maze);
+            button.setMaxWidth(Double.MAX_VALUE);
+            button.setMinHeight(80);
+
+            HBox content = new HBox(20);
+            content.setAlignment(Pos.CENTER_LEFT);
+            content.setPadding(new Insets(10));
+
+            Label name = new Label(maze.getName());
+            Label date = new Label(maze.getDateMade());
+            Label size = new Label(maze.getMazeWidth() + "x" + maze.getMazeHeight());
+
+            content.getChildren().addAll(name, size, date);
+            button.setGraphic(content);
+
+            mazeList.getChildren().add(button);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(mazeList);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setPrefHeight(300);
+
+        dialog.getDialogPane().setContent(scrollPane);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == openButtonType && group.getSelectedToggle() != null) {
+                return (Maze) group.getSelectedToggle().getUserData();
+            }
+            return null;
+        });
+
+        Optional<Maze> result = dialog.showAndWait();
+        result.ifPresent(selectedMaze -> {
+            viewFactory.showMazeBuilderView(selectedMaze);
+        });
     }
 
 
