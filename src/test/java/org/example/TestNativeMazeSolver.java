@@ -24,11 +24,12 @@ public class TestNativeMazeSolver {
     private final int COMPLEX_WIDTH = 6;
     private final int COMPLEX_HEIGHT = 6;
     private final int[][] ComplexMazeWithMultipleGoals = {
-        { Path.WALL.get(), Path.PATH.get(), Path.PATH.get(), Path.WALL.get(), Path.PATH.get() },
-        { Path.PATH.get(), Path.WALL.get(), Path.WALL.get(), Path.PATH.get(), Path.PATH.get() },
-        { Path.WALL.get(), Path.PATH.get(), Path.WALL.get(), Path.PATH.get(), Path.GOAL.get() },
-        { Path.WALL.get(), Path.PATH.get(), Path.WALL.get(), Path.WALL.get(), Path.WALL.get() },
-        { Path.WALL.get(), Path.WALL.get(), Path.PATH.get(), Path.PATH.get(), Path.START.get() }, 
+        { Path.PATH.get(), Path.PATH.get(), Path.PATH.get(), Path.PATH.get(), Path.START.get(), Path.WALL.get() },
+        { Path.PATH.get(), Path.WALL.get(), Path.PATH.get(), Path.WALL.get(), Path.PATH.get(), Path.WALL.get()  },
+        { Path.WALL.get(), Path.PATH.get(), Path.PATH.get(), Path.PATH.get(), Path.PATH.get(), Path.PATH.get()  },
+        { Path.WALL.get(), Path.WALL.get(), Path.PATH.get(), Path.PATH.get(), Path.WALL.get(), Path.WALL.get()  },
+        { Path.GOAL.get(), Path.PATH.get(), Path.WALL.get(), Path.PATH.get(), Path.WALL.get(), Path.GOAL.get()  }, 
+        { Path.PATH.get(), Path.GOAL.get(), Path.WALL.get(), Path.WALL.get(), Path.PATH.get(), Path.WALL.get()  }, 
     };
 
     private final Maze simpleMaze = new Maze(
@@ -212,11 +213,6 @@ public class TestNativeMazeSolver {
         IntStream.range(0, receivedSteps.size())
             .forEach(i -> {
                 final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
-                if(isMatch) {
-                    System.out.println("Maze is: " + Arrays.toString(receivedSteps.get(i)));
-                    System.out.println("Expected Maze is: " + Arrays.toString(expectedSteps[i]));
-
-                }
                 assertEquals(false, isMatch);
             });
     }
@@ -339,6 +335,61 @@ public class TestNativeMazeSolver {
                     System.out.println("Expected Maze is: " + Arrays.toString(expectedSteps[i]));
 
                 }
+                assertEquals(false, isMatch);
+            });
+    }
+
+    @Test
+    public void Test_IDAStar_Complex_Maze_Correct_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.IDASTAR);
+
+        final int[][] expectedSteps = {
+            {0,4},
+            {1,4},
+            {0,3},
+            {2,3},
+            {1,2},
+            {3,2},
+            {2,1},
+            {4,1},
+            {5,0},
+            {5,1},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                if(!isMatch) {
+                    System.out.println("Maze is: " + Arrays.toString(receivedSteps.get(i)));
+                    System.out.println("Expected Maze is: " + Arrays.toString(expectedSteps[i]));
+
+                }
+                assertEquals(true, isMatch);
+            });
+    }
+
+    @Test
+    public void Test_IDAStar_Complex_Maze_Wrong_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.complexMaze)
+                                                    .SolveWith(SolveStrategy.IDASTAR);
+
+        final int[][] expectedSteps = {
+            {1,4},
+            {2,4},
+            {3,3},
+            {5,3},
+            {2,2},
+            {0,2},
+            {2,3},
+            {4,2},
+            {5,5},
+            {5,3},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
                 assertEquals(false, isMatch);
             });
     }
