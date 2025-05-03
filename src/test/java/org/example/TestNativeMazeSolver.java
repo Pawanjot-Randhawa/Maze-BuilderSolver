@@ -44,9 +44,9 @@ public class TestNativeMazeSolver {
 
 
 
-    
+
     @Test
-    public void Test_AStar_SimpleMaze_Correct_Path() {
+    public void Test_AStar_Simple_Maze_Correct_Path() {
         final List<int[]> receivedSteps = SolverAPI.GetInstance(this.maze)
                                             .SolveWith(SolveStrategy.ASTAR);
         
@@ -71,7 +71,7 @@ public class TestNativeMazeSolver {
     }
 
     @Test
-    public void Test_AStar_SimpleMaze_Wrong_Path() {
+    public void Test_AStar_Simple_Maze_Wrong_Path() {
         final List<int[]> receivedSteps = SolverAPI.GetInstance(this.maze)
                                             .SolveWith(SolveStrategy.ASTAR);
         
@@ -99,7 +99,7 @@ public class TestNativeMazeSolver {
 
 
     @Test
-    public void Test_Dijkstra_SimpleMaze_Correct_Path() {
+    public void Test_Dijkstra_Simple_Maze_Correct_Path() {
         final List<int[]> receivedSteps = SolverAPI.GetInstance(this.maze)
                                                     .SolveWith(SolveStrategy.DIJKSTRA);
 
@@ -124,7 +124,7 @@ public class TestNativeMazeSolver {
     }
 
     @Test
-    public void Test_Dijkstra_SimpleMaze_Wrong_Path() {
+    public void Test_Dijkstra_Simple_Maze_Wrong_Path() {
         final List<int[]> receivedSteps = SolverAPI.GetInstance(this.maze)
                                                     .SolveWith(SolveStrategy.DIJKSTRA);
 
@@ -148,6 +148,127 @@ public class TestNativeMazeSolver {
             });
     }
 
+
+
+
+    @Test
+    public void Test_BlockNdPath_Simple_Maze_Correct_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.maze)
+                                                    .SolveWith(SolveStrategy.BLOCKNDPATH);
+
+        final int[][] expectedSteps = {
+            {4,4},
+            {4,3},
+            {4,2},
+            {3,1},
+            {2,1},
+            {1,0},
+            {0,1},
+            {0,2},
+            {1,3},
+            {1,4},
+            {2,4},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(true, isMatch);
+            });
+    }
+
+    @Test
+    public void Test_BlockNdPath_Simple_Maze_Wrong_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.maze)
+                                                    .SolveWith(SolveStrategy.BLOCKNDPATH);
+
+        final int[][] expectedSteps = {
+            {2,4},
+            {1,4},
+            {1,3},
+            {0,2},
+            {0,1},
+            {4,4},
+            {2,1},
+            {3,1},
+            {4,2},
+            {4,3},
+            {4,4},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                if(isMatch) {
+                    System.out.println("Maze is: " + Arrays.toString(receivedSteps.get(i)));
+                    System.out.println("Expected Maze is: " + Arrays.toString(expectedSteps[i]));
+
+                }
+                assertEquals(false, isMatch);
+            });
+    }
+
+
+
+
+    @Test
+    public void Test_BFS_Simple_Maze_Correct_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.maze)
+                                                    .SolveWith(SolveStrategy.BFS);
+
+        final int[][] expectedSteps = {
+            {4,4},
+            {4,3},
+            {4,2},
+            {3,1},
+            {2,1},
+            {1,0},
+            {0,1},
+            {0,2},
+            {1,3},
+            {1,4},
+            {2,3},
+            {2,4},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                assertEquals(true, isMatch);
+            });
+    }
+
+    @Test
+    public void Test_BFS_Simple_Maze_Wrong_Path() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.maze)
+                                                    .SolveWith(SolveStrategy.BFS);
+
+        final int[][] expectedSteps = {
+            {2,4},
+            {2,3},
+            {1,4},
+            {1,3},
+            {0,2},
+            {0,1},
+            {4,4},
+            {2,1},
+            {3,1},
+            {4,2},
+            {4,3},
+            {4,4},
+        };
+
+        IntStream.range(0, receivedSteps.size())
+            .forEach(i -> {
+                final boolean isMatch = Arrays.equals(receivedSteps.get(i), expectedSteps[i]);
+                if(isMatch) {
+                    System.out.println("Maze is: " + Arrays.toString(receivedSteps.get(i)));
+                    System.out.println("Expected Maze is: " + Arrays.toString(expectedSteps[i]));
+
+                }
+                assertEquals(false, isMatch);
+            });
+    }
 
 
 
