@@ -32,6 +32,12 @@ public class TestNativeMazeSolver {
         { Path.PATH.get(), Path.GOAL.get(), Path.WALL.get(), Path.WALL.get(), Path.PATH.get(), Path.WALL.get()  }, 
     };
 
+    private final int IMPOSSIBLE_WIDTH = 1;
+    private final int IMPOSSIBLE_HEIGHT = 3;
+    private final int[][] _ImpossibleMaze = {
+        {Path.START.get(), Path.PATH.get(), Path.WALL.get(), Path.GOAL.get()},
+    };
+
     private final Maze simpleMaze = new Maze(
         this.SimpleMazeWithSingleGoal, 
         this.SIMPLE_WIDTH, 
@@ -42,6 +48,12 @@ public class TestNativeMazeSolver {
         this.ComplexMazeWithMultipleGoals, 
         this.COMPLEX_WIDTH, 
         this.COMPLEX_HEIGHT
+    );
+
+    private final Maze impossibleMaze = new Maze(
+        this._ImpossibleMaze,
+        this.IMPOSSIBLE_WIDTH,
+        this.IMPOSSIBLE_HEIGHT
     );
 
 
@@ -59,6 +71,49 @@ public class TestNativeMazeSolver {
 
 
 
+    @Test
+    public void Test_Impossible_Maze_AStar() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.impossibleMaze)
+                                                    .SolveWith(SolveStrategy.ASTAR);
+        final boolean empty = true;
+        assertEquals(empty , receivedSteps.isEmpty());
+    }
+
+    @Test
+    public void Test_Impossible_Maze_Dijkstra() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.impossibleMaze)
+                                                    .SolveWith(SolveStrategy.DIJKSTRA);
+        final boolean empty = true;
+        assertEquals(empty , receivedSteps.isEmpty());
+    }
+
+    @Test
+    public void Test_Impossible_Maze_BlockNdPath() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.impossibleMaze)
+                                                    .SolveWith(SolveStrategy.BLOCKNDPATH);
+        final boolean empty = true;
+        assertEquals(empty , receivedSteps.isEmpty());
+    }
+
+    @Test
+    public void Test_Impossible_Maze_BFS() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.impossibleMaze)
+                                                    .SolveWith(SolveStrategy.BFS);
+        final boolean empty = true;
+        assertEquals(empty , receivedSteps.isEmpty());
+    }
+
+    @Test
+    public void Test_Impossible_Maze_IDAStar() {
+        final List<int[]> receivedSteps = SolverAPI.GetInstance(this.impossibleMaze)
+                                                    .SolveWith(SolveStrategy.IDASTAR);
+        final boolean empty = true;
+        assertEquals(empty , receivedSteps.isEmpty());
+    }
+
+
+
+    
     @Test
     public void Test_AStar_Simple_Maze_Correct_Path() {
         final List<int[]> receivedSteps = SolverAPI.GetInstance(this.simpleMaze)
