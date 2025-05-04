@@ -67,8 +67,9 @@ void Matrix<T>::Dijkstra() {
 
   // Re-create the path
   Position current = chosenGoal;
-  if (distances[current] == std::numeric_limits<double>::infinity()) {
-    std::cout << "No path found!" << std::endl;
+  if (this->startingPosition == current || distances[current] == std::numeric_limits<double>::infinity()) {
+    logger.Warn("No Path found! inside Dijkstra()\n");
+    this->path.clear();
     return;
   }
 

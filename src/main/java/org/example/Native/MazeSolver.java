@@ -3,8 +3,9 @@ package org.example.Native;
 import java.util.List;
 
 public class MazeSolver {
+  final static public String LIBRARY_NAME = "native";
   static {
-    System.loadLibrary("native");
+    System.loadLibrary(LIBRARY_NAME);
   }
 
   public static native void sayHello();
