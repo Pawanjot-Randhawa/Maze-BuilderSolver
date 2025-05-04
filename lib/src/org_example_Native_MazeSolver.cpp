@@ -20,7 +20,7 @@ std::string jstring2string(JNIEnv* env, jstring jStr);
 
 JNIEXPORT void JNICALL Java_org_example_Native_MazeSolver_sayHello
 (JNIEnv *, jclass) {
-   std::cout << "Hello world";  
+  logger.Info("Hello World! From JNICALL SayHelo()!");
 }
 
 JNIEXPORT jstring JNICALL Java_org_example_Native_MazeSolver_returnHello
@@ -33,7 +33,6 @@ JNIEXPORT jstring JNICALL Java_org_example_Native_MazeSolver_returnHello
 JNIEXPORT jboolean JNICALL Java_org_example_Native_MazeSolver_InitializeMaze
   (JNIEnv *env, jclass, jobjectArray maze) {
     logger.Info("Initialzing Maze");
-    std::cout << "HELLO CAN YOU SEE ME??\n\n";
     
     const int rows{env->GetArrayLength(maze)};
     const jobjectArray firstRow = static_cast<jobjectArray>(env->GetObjectArrayElement(maze, 0));
@@ -73,7 +72,6 @@ JNIEXPORT jobject JNICALL Java_org_example_Native_MazeSolver_AStar
     for(const auto& p : path) {
     str += std::to_string(p.first) + " " + std::to_string(p.second) + "\n"; 
     }
-    std::cout << str << "\n";
     logger.Info(str.c_str());
 
     // Get java methods

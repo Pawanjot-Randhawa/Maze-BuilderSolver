@@ -104,7 +104,7 @@ void Matrix<T>::IDAStar() {
             }
 
             if(this->isGoal(currentNode.first, currentNode.second)) {
-                std::cout << "Solved maze\n";
+                logger.Info("Solved Maze! Inside IDAStar()\n");
                 return;
             }
 
@@ -126,7 +126,7 @@ void Matrix<T>::IDAStar() {
         }
         path.clear();
         if(min_f_score == std::numeric_limits<double>::infinity()) {
-            std::cout << "Impossible maze\n";
+            logger.Warn("Impossible Maze! Inside IDAStar()! \n");
             path.clear();
 
             return;

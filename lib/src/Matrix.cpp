@@ -89,7 +89,7 @@ void Matrix<T>::Set(const int& row, const int& col, const T& value) {
 
 template <class T>
 Matrix<T>::~Matrix() {
-  std::cout << "Clearing ~Matrix()\n\n";
+  logger.Info("Clearing ~Matrix()\n\n");
   this->DestructMatrix();
 }
 
@@ -123,14 +123,12 @@ void Matrix<T>::Initialize(
 
 template <class T>
 void Matrix<T>::Print() {
-  std::cout << "Printing the Maze\n";
+  logger.Debug("Printing the Maze!");
   for(int i = 0; i < this->rows; ++i) {
     for(int j = 0; j < this->cols; ++j) {
-      std::cout << this->matrix[i][j] << " ";
+      logger.Info(std::to_string(this->matrix[i][j]).c_str());
     }
-    std::cout << "\n";
   }
-  std::cout << "\n\n";
 }
 
 
