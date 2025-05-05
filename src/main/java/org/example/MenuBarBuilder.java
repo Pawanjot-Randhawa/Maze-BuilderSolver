@@ -3,8 +3,12 @@ package org.example;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.Optional;
 
@@ -60,6 +64,7 @@ public class MenuBarBuilder {
     }
 
     public MenuBar buildForSolver() {
+        save.setDisable(true);
         Menu algos = new Menu("Algorithms");
         MenuItem a = new MenuItem("A*");
         MenuItem b = new MenuItem("Dijkstra");
@@ -154,39 +159,101 @@ public class MenuBarBuilder {
         ButtonType openButtonType = new ButtonType("Open", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(openButtonType, ButtonType.CANCEL);
 
+        // === Maze List ===
         VBox mazeList = new VBox(10);
-        mazeList.setPrefWidth(400);
+        mazeList.setPrefWidth(250);
+        mazeList.setPadding(new Insets(10));
         ToggleGroup group = new ToggleGroup();
+
+        // === Preview Pane ===
+        VBox previewPane = new VBox(10);
+        previewPane.setPadding(new Insets(10));
+        previewPane.setPrefWidth(250);
+        previewPane.setStyle("-fx-background-color: #f4f4f4;");
+
+        Label namePreview = new Label("Name: ");
+        Label sizePreview = new Label("Size: ");
+        Label datePreview = new Label("Created: ");
+        GridPane miniMazeGrid = new GridPane();
+        miniMazeGrid.setHgap(1);
+        miniMazeGrid.setVgap(1);
+        miniMazeGrid.setPadding(new Insets(10));
+        miniMazeGrid.setStyle("-fx-background-color: #ffffff;");
+
+        previewPane.getChildren().addAll(namePreview, sizePreview, datePreview, miniMazeGrid);
 
         for (Maze maze : Database.GetInstance().getMazes()) {
             ToggleButton button = new ToggleButton();
             button.setToggleGroup(group);
             button.setUserData(maze);
             button.setMaxWidth(Double.MAX_VALUE);
-            button.setMinHeight(80);
+            button.setMinHeight(60);
 
-            HBox content = new HBox(20);
+            HBox content = new HBox(15);
             content.setAlignment(Pos.CENTER_LEFT);
-            content.setPadding(new Insets(10));
+            content.setPadding(new Insets(5));
 
             Label name = new Label(maze.getName());
-            Label date = new Label(maze.getDateMade());
-            Label size = new Label(maze.getMazeWidth() + "x" + maze.getMazeHeight());
 
-            content.getChildren().addAll(name, size, date);
+            content.getChildren().addAll(name);
             button.setGraphic(content);
-
             mazeList.getChildren().add(button);
+
+            button.setOnAction(e -> {
+                Maze selected = (Maze) button.getUserData();
+                namePreview.setText("Name: " + selected.getName());
+                sizePreview.setText("Size: " + selected.getMazeWidth() + "x" + selected.getMazeHeight());
+                datePreview.setText("Created: " + selected.getDateMade());
+
+                // === Render mini maze ===
+                miniMazeGrid.getChildren().clear();
+
+                int[][] grid = selected.getMazeArray();
+                int rows = grid.length;
+                int cols = grid[0].length;
+                int cellSize = Math.min(200 / Math.max(rows, cols), 20);
+
+                for (int y = 0; y < rows; y++) {
+                    for (int x = 0; x < cols; x++) {
+                        Rectangle cell = new Rectangle(cellSize, cellSize);
+                        int value = grid[y][x];
+
+                        if (value == 8) {
+                            cell.setFill(Color.BLACK); // Wall
+                        } else if (value == 0) {
+                            cell.setFill(Color.WHITE); // Path
+                        }else if (value == 2) {
+                            cell.setFill(Color.LIMEGREEN); // Start
+                        }else if (value == 1) {
+
+                            cell.setFill(Color.RED); // End
+                        }
+                        cell.setStroke(Color.LIGHTGRAY);
+                        miniMazeGrid.add(cell, x, y);
+                    }
+                }
+            });
         }
 
         ScrollPane scrollPane = new ScrollPane(mazeList);
         scrollPane.setFitToWidth(true);
         scrollPane.setPrefHeight(300);
 
-        dialog.getDialogPane().setContent(scrollPane);
+        BorderPane dialogLayout = new BorderPane();
+        dialogLayout.setLeft(scrollPane);
+        dialogLayout.setRight(previewPane);
+        dialog.getDialogPane().setContent(dialogLayout);
 
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == openButtonType && group.getSelectedToggle() != null) {
+            if (dialogButton == openButtonType) {
+                if (group.getSelectedToggle() == null) {
+                    Alert warning = new Alert(Alert.AlertType.WARNING);
+                    warning.setTitle("No Maze Selected");
+                    warning.setHeaderText(null);
+                    warning.setContentText("Please select a maze to open.");
+                    warning.showAndWait();
+                    return null;
+                }
                 return (Maze) group.getSelectedToggle().getUserData();
             }
             return null;
