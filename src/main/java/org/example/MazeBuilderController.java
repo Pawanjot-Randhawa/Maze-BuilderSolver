@@ -240,6 +240,8 @@ import javafx.scene.shape.Rectangle;
            }
            if(this.maze!=null){
                this.maze.setMazeArray(mazeArray);
+               this.maze.setMazeHeight(this.height);
+               this.maze.setMazeWidth(this.width);
                return this.maze;
            }
            return new Maze(mazeArray, width, height);
