@@ -49,3 +49,14 @@ The following pathfinding algorithms are supported in the Maze Solver. Each can 
 
 
 ## How to run
+
+1. Clone the Repo
+
+```bash
+git clone https://github.com/Pawanjot-Randhawa/Maze-BuilderSolver.git
+```
+
+2. Run the make powershell script
+```powershell
+./make.ps1
+```
