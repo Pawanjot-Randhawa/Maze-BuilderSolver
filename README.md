@@ -16,37 +16,48 @@ The Maze Builder & Solver app is split into clearly defined views, each focused 
 - **🏠 Main Menu**  
   The entry point of the application. Lets users choose between building a new maze or solving an existing one. Also displays basic instructions and navigation tips.
 
+![Screenshot of the Main Menu](images/mainMenu.png)
+
+
 - **🧱 Builder View**  
   Allows users to draw mazes by painting walls and paths, place start/end points, and adjust the maze dimensions. Includes file options for saving and loading mazes to/from the database.
+
+![builder.png](images/builder.png)
 
 - **🔍 Solver View**  
   Displays available pathfinding algorithms and lets users visualize them in real-time. Includes controls for algorithm selection, playback speed, and stepping through the solution.
 
+![solver.png](images/solver.png)
+
 - **⚙️ Top Menu Bar**  
   Shared across views, this provides options like loading/saving mazes, switching themes, clearing the grid, or exiting the application. Built using JavaFX’s `MenuBar` and styled via CSS.
 
+![menubar.png](images/menubar.png)
 
 
 ### 🧠 Supported Algorithms
 
 The following pathfinding algorithms are supported in the Maze Solver. Each can be visualized step-by-step as they explore the maze:
 
-- **Breadth-First Search (BFS)**  
-  Explores the maze level by level, guaranteeing the shortest path in an unweighted grid. Uses a queue to process nodes in order of distance from the start.
-
-- **Depth-First Search (DFS)**  
-  Explores as far as possible along one path before backtracking. Uses a stack or recursion and may not find the shortest path.
-
-- **A\***  
+- **A\* Algorithm**  
   An informed search algorithm that uses a heuristic (like Manhattan distance) to prioritize paths that are likely to reach the goal faster. Usually finds the shortest path efficiently.
+![aStar.png](images/aStar.png)
 
-- **Iterative Deepening A\* (IDA\*)**  
-  Combines the depth-limited search of DFS with A\*'s heuristic guidance. It uses iterative deepening to reduce memory usage while still aiming for optimal paths.
+- **Dijkstra’s Algorithm**  
+  Finds the shortest paths from a start node to all other nodes in a weighted graph with non-negative edges. Uses a priority queue to always expand the node with the smallest known distance, ensuring optimal paths.
+![dijkstra.png](images/dijkstra.png)
 
-- **Recursive Backtracker (Custom)**  
+- **Recursive Backtracker Algorithm (Custom)**  
   A custom search algorithm created by both contributors that recursively explores each direction in a fixed order. It backtracks on dead ends and can be adapted for maze generation or solving.
+![blocknpath.png](images/blocknpath.png)
 
+- **Breadth-First Search Algorithm (BFS)**  
+  Explores the maze level by level, guaranteeing the shortest path in an unweighted grid. Uses a queue to process nodes in order of distance from the start.
+![bfs.png](images/bfs.png)
 
+- **Iterative Deepening A\* Algorithm (IDA\*)**  
+  Combines the depth-limited search of DFS with A\*'s heuristic guidance. It uses iterative deepening to reduce memory usage while still aiming for optimal paths.
+![idaStar.png](images/idaStar.png)
 
 ## How to run
 
